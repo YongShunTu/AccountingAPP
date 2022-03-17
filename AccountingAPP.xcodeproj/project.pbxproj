@@ -7,23 +7,101 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC62236527E058BC00850A8F /* WithdrawMoneyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC62236427E058BC00850A8F /* WithdrawMoneyViewController.swift */; };
+		AC62236B27E0A07200850A8F /* EditWithdrawalDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC62236A27E0A07200850A8F /* EditWithdrawalDetailsViewController.swift */; };
+		AC62236D27E0A0A500850A8F /* WithdrawalDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC62236C27E0A0A500850A8F /* WithdrawalDetailsViewController.swift */; };
+		AC62236F27E0AFD900850A8F /* BankDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC62236E27E0AFD900850A8F /* BankDetailTableViewCell.swift */; };
+		AC62237127E1E01E00850A8F /* AllCategoriesEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC62237027E1E01E00850A8F /* AllCategoriesEnum.swift */; };
+		AC62237327E1EA6800850A8F /* AllCategoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC62237227E1EA6800850A8F /* AllCategoriesTableViewController.swift */; };
+		AC62237927E1ED5900850A8F /* AllCategoriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC62237827E1ED5900850A8F /* AllCategoriesTableViewCell.swift */; };
 		ACB5739427B582A500FCB998 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB5739327B582A500FCB998 /* AppDelegate.swift */; };
 		ACB5739627B582A500FCB998 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB5739527B582A500FCB998 /* SceneDelegate.swift */; };
-		ACB5739827B582A500FCB998 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB5739727B582A500FCB998 /* ViewController.swift */; };
+		ACB5739827B582A500FCB998 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB5739727B582A500FCB998 /* MainViewController.swift */; };
 		ACB5739B27B582A500FCB998 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACB5739927B582A500FCB998 /* Main.storyboard */; };
 		ACB5739D27B582A600FCB998 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACB5739C27B582A600FCB998 /* Assets.xcassets */; };
 		ACB573A027B582A600FCB998 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACB5739E27B582A600FCB998 /* LaunchScreen.storyboard */; };
+		ACB573A827B6475E00FCB998 /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB573A727B6475E00FCB998 /* AddAccountViewController.swift */; };
+		ACB573C227B6DAE200FCB998 /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB573C127B6DAE200FCB998 /* Accounts.swift */; };
+		ACB573E527B909A100FCB998 /* ItemsArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB573E427B909A100FCB998 /* ItemsArray.swift */; };
+		ACB573ED27BA6F3B00FCB998 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB573EC27BA6F3B00FCB998 /* MainTableViewCell.swift */; };
+		ACBE264F27C798F700F31C10 /* HistoricalAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE264E27C798F700F31C10 /* HistoricalAccountsViewController.swift */; };
+		ACBE265127C94A8800F31C10 /* HistoricalAccountsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE265027C94A8800F31C10 /* HistoricalAccountsTableViewCell.swift */; };
+		ACBE265527CE1CFE00F31C10 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE265427CE1CFE00F31C10 /* ReportViewController.swift */; };
+		ACBE265827CE269C00F31C10 /* MonthlyReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE265727CE269C00F31C10 /* MonthlyReportViewController.swift */; };
+		ACBE265C27CFC9EE00F31C10 /* ReportTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE265B27CFC9EE00F31C10 /* ReportTableViewCell.swift */; };
+		ACBE265E27D0ADC700F31C10 /* AnnualReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE265D27D0ADC700F31C10 /* AnnualReportViewController.swift */; };
+		ACBE266027D20D5800F31C10 /* AddKeyboardReturn.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE265F27D20D5800F31C10 /* AddKeyboardReturn.swift */; };
+		ACBE266827D2253800F31C10 /* ProjectEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE266727D2253800F31C10 /* ProjectEnum.swift */; };
+		ACBE266A27D3642C00F31C10 /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE266927D3642C00F31C10 /* NumberFormatter.swift */; };
+		ACBE266C27D5CA5A00F31C10 /* TransferMoneyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE266B27D5CA5A00F31C10 /* TransferMoneyViewController.swift */; };
+		ACBE267927D6135C00F31C10 /* BankAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE267827D6135C00F31C10 /* BankAccountsViewController.swift */; };
+		ACBE267B27D6137100F31C10 /* BankAccountsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE267A27D6137100F31C10 /* BankAccountsTableViewCell.swift */; };
+		ACBE267D27D6142900F31C10 /* BankAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE267C27D6142900F31C10 /* BankAccounts.swift */; };
+		ACBE268527D9CB8800F31C10 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBE268427D9CB8800F31C10 /* CoreLocation.framework */; };
+		ACBE268927DE4D9900F31C10 /* EditTransferDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE268827DE4D9900F31C10 /* EditTransferDetailsViewController.swift */; };
+		ACBE268B27DE4E7200F31C10 /* TransferDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE268A27DE4E7200F31C10 /* TransferDetailsViewController.swift */; };
+		ACD9CD2127BBC5FB003192E5 /* EditAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD2027BBC5FB003192E5 /* EditAccountViewController.swift */; };
+		ACD9CD2A27BC099C003192E5 /* AddIncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD2927BC099C003192E5 /* AddIncomeViewController.swift */; };
+		ACD9CD2C27BC0B16003192E5 /* AddExpenditureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD2B27BC0B16003192E5 /* AddExpenditureViewController.swift */; };
+		ACD9CD3027BEC8EE003192E5 /* ExpenditureOrIncome.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD2F27BEC8EE003192E5 /* ExpenditureOrIncome.swift */; };
+		ACD9CD3B27C14332003192E5 /* GoogleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD3A27C14332003192E5 /* GoogleMapViewController.swift */; };
+		ACD9CD3D27C1436C003192E5 /* GoogleMapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD3C27C1436C003192E5 /* GoogleMapTableViewCell.swift */; };
+		ACD9CD4127C14C31003192E5 /* GoogleMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD4027C14C31003192E5 /* GoogleMap.swift */; };
+		ACD9CD4327C14C53003192E5 /* GoogleMapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD4227C14C53003192E5 /* GoogleMapController.swift */; };
+		ACD9CD5F27C4C3C1003192E5 /* FrequentlyUsed.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD5E27C4C3C1003192E5 /* FrequentlyUsed.swift */; };
+		ACD9CD6127C4CCB8003192E5 /* FrequentlyUsedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD6027C4CCB8003192E5 /* FrequentlyUsedViewController.swift */; };
+		ACD9CD6327C4CDFF003192E5 /* FrequentlyUsedIncomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD6227C4CDFF003192E5 /* FrequentlyUsedIncomeTableViewCell.swift */; };
+		ACD9CD6527C4CE25003192E5 /* FrequentlyUsedIExpenditureTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD6427C4CE25003192E5 /* FrequentlyUsedIExpenditureTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AC62236427E058BC00850A8F /* WithdrawMoneyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawMoneyViewController.swift; sourceTree = "<group>"; };
+		AC62236A27E0A07200850A8F /* EditWithdrawalDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWithdrawalDetailsViewController.swift; sourceTree = "<group>"; };
+		AC62236C27E0A0A500850A8F /* WithdrawalDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalDetailsViewController.swift; sourceTree = "<group>"; };
+		AC62236E27E0AFD900850A8F /* BankDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankDetailTableViewCell.swift; sourceTree = "<group>"; };
+		AC62237027E1E01E00850A8F /* AllCategoriesEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesEnum.swift; sourceTree = "<group>"; };
+		AC62237227E1EA6800850A8F /* AllCategoriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesTableViewController.swift; sourceTree = "<group>"; };
+		AC62237827E1ED5900850A8F /* AllCategoriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesTableViewCell.swift; sourceTree = "<group>"; };
 		ACB5739027B582A500FCB998 /* AccountingAPP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AccountingAPP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACB5739327B582A500FCB998 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ACB5739527B582A500FCB998 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		ACB5739727B582A500FCB998 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		ACB5739727B582A500FCB998 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		ACB5739A27B582A500FCB998 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ACB5739C27B582A600FCB998 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ACB5739F27B582A600FCB998 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ACB573A127B582A600FCB998 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ACB573A727B6475E00FCB998 /* AddAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
+		ACB573C127B6DAE200FCB998 /* Accounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
+		ACB573E427B909A100FCB998 /* ItemsArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsArray.swift; sourceTree = "<group>"; };
+		ACB573EC27BA6F3B00FCB998 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		ACBE264E27C798F700F31C10 /* HistoricalAccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricalAccountsViewController.swift; sourceTree = "<group>"; };
+		ACBE265027C94A8800F31C10 /* HistoricalAccountsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoricalAccountsTableViewCell.swift; sourceTree = "<group>"; };
+		ACBE265427CE1CFE00F31C10 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
+		ACBE265727CE269C00F31C10 /* MonthlyReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyReportViewController.swift; sourceTree = "<group>"; };
+		ACBE265B27CFC9EE00F31C10 /* ReportTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableViewCell.swift; sourceTree = "<group>"; };
+		ACBE265D27D0ADC700F31C10 /* AnnualReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnualReportViewController.swift; sourceTree = "<group>"; };
+		ACBE265F27D20D5800F31C10 /* AddKeyboardReturn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddKeyboardReturn.swift; sourceTree = "<group>"; };
+		ACBE266727D2253800F31C10 /* ProjectEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEnum.swift; sourceTree = "<group>"; };
+		ACBE266927D3642C00F31C10 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
+		ACBE266B27D5CA5A00F31C10 /* TransferMoneyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferMoneyViewController.swift; sourceTree = "<group>"; };
+		ACBE267827D6135C00F31C10 /* BankAccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountsViewController.swift; sourceTree = "<group>"; };
+		ACBE267A27D6137100F31C10 /* BankAccountsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountsTableViewCell.swift; sourceTree = "<group>"; };
+		ACBE267C27D6142900F31C10 /* BankAccounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccounts.swift; sourceTree = "<group>"; };
+		ACBE268427D9CB8800F31C10 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		ACBE268827DE4D9900F31C10 /* EditTransferDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTransferDetailsViewController.swift; sourceTree = "<group>"; };
+		ACBE268A27DE4E7200F31C10 /* TransferDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferDetailsViewController.swift; sourceTree = "<group>"; };
+		ACD9CD2027BBC5FB003192E5 /* EditAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountViewController.swift; sourceTree = "<group>"; };
+		ACD9CD2927BC099C003192E5 /* AddIncomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIncomeViewController.swift; sourceTree = "<group>"; };
+		ACD9CD2B27BC0B16003192E5 /* AddExpenditureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenditureViewController.swift; sourceTree = "<group>"; };
+		ACD9CD2F27BEC8EE003192E5 /* ExpenditureOrIncome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenditureOrIncome.swift; sourceTree = "<group>"; };
+		ACD9CD3A27C14332003192E5 /* GoogleMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapViewController.swift; sourceTree = "<group>"; };
+		ACD9CD3C27C1436C003192E5 /* GoogleMapTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapTableViewCell.swift; sourceTree = "<group>"; };
+		ACD9CD4027C14C31003192E5 /* GoogleMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMap.swift; sourceTree = "<group>"; };
+		ACD9CD4227C14C53003192E5 /* GoogleMapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapController.swift; sourceTree = "<group>"; };
+		ACD9CD5E27C4C3C1003192E5 /* FrequentlyUsed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentlyUsed.swift; sourceTree = "<group>"; };
+		ACD9CD6027C4CCB8003192E5 /* FrequentlyUsedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentlyUsedViewController.swift; sourceTree = "<group>"; };
+		ACD9CD6227C4CDFF003192E5 /* FrequentlyUsedIncomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentlyUsedIncomeTableViewCell.swift; sourceTree = "<group>"; };
+		ACD9CD6427C4CE25003192E5 /* FrequentlyUsedIExpenditureTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentlyUsedIExpenditureTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +109,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACBE268527D9CB8800F31C10 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AC62236327E0577600850A8F /* WithdrawMoney */ = {
+			isa = PBXGroup;
+			children = (
+				AC62236427E058BC00850A8F /* WithdrawMoneyViewController.swift */,
+			);
+			path = WithdrawMoney;
+			sourceTree = "<group>";
+		};
 		ACB5738727B582A500FCB998 = {
 			isa = PBXGroup;
 			children = (
 				ACB5739227B582A500FCB998 /* AccountingAPP */,
 				ACB5739127B582A500FCB998 /* Products */,
+				ACBE268327D9CB8800F31C10 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +144,165 @@
 		ACB5739227B582A500FCB998 /* AccountingAPP */ = {
 			isa = PBXGroup;
 			children = (
+				ACBE267327D6072D00F31C10 /* Bank */,
+				ACBE265627CE266D00F31C10 /* Report */,
+				ACBE264B27C72E2700F31C10 /* HistoricalAccounts */,
+				ACB573EB27BA6E4400FCB998 /* MainView */,
+				ACB573C427B6DE0300FCB998 /* AddAccount */,
+				ACD9CD2827BBD428003192E5 /* EditAccount */,
+				ACB573EA27BA6CCB00FCB998 /* AllCategoriesTableView&Cell */,
+				ACB573C327B6DAEA00FCB998 /* Models */,
 				ACB5739327B582A500FCB998 /* AppDelegate.swift */,
 				ACB5739527B582A500FCB998 /* SceneDelegate.swift */,
-				ACB5739727B582A500FCB998 /* ViewController.swift */,
 				ACB5739927B582A500FCB998 /* Main.storyboard */,
 				ACB5739C27B582A600FCB998 /* Assets.xcassets */,
 				ACB5739E27B582A600FCB998 /* LaunchScreen.storyboard */,
 				ACB573A127B582A600FCB998 /* Info.plist */,
+				ACD9CD2F27BEC8EE003192E5 /* ExpenditureOrIncome.swift */,
+				ACBE265F27D20D5800F31C10 /* AddKeyboardReturn.swift */,
+				ACBE266727D2253800F31C10 /* ProjectEnum.swift */,
+				ACBE266927D3642C00F31C10 /* NumberFormatter.swift */,
+				AC62237027E1E01E00850A8F /* AllCategoriesEnum.swift */,
 			);
 			path = AccountingAPP;
+			sourceTree = "<group>";
+		};
+		ACB573C327B6DAEA00FCB998 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				ACB573C127B6DAE200FCB998 /* Accounts.swift */,
+				ACD9CD4027C14C31003192E5 /* GoogleMap.swift */,
+				ACD9CD5E27C4C3C1003192E5 /* FrequentlyUsed.swift */,
+				ACBE267C27D6142900F31C10 /* BankAccounts.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		ACB573C427B6DE0300FCB998 /* AddAccount */ = {
+			isa = PBXGroup;
+			children = (
+				ACB573A727B6475E00FCB998 /* AddAccountViewController.swift */,
+				ACB573E427B909A100FCB998 /* ItemsArray.swift */,
+				ACD9CD3127BFBD3B003192E5 /* FrequentlyUsed */,
+				ACB573C627B6DE6D00FCB998 /* Income */,
+				ACB573C527B6DE5B00FCB998 /* Expenditure */,
+				ACBE267E27D65E0B00F31C10 /* TransferMoney */,
+				AC62236327E0577600850A8F /* WithdrawMoney */,
+				ACD9CD6627C51126003192E5 /* search */,
+			);
+			path = AddAccount;
+			sourceTree = "<group>";
+		};
+		ACB573C527B6DE5B00FCB998 /* Expenditure */ = {
+			isa = PBXGroup;
+			children = (
+				ACD9CD2B27BC0B16003192E5 /* AddExpenditureViewController.swift */,
+			);
+			path = Expenditure;
+			sourceTree = "<group>";
+		};
+		ACB573C627B6DE6D00FCB998 /* Income */ = {
+			isa = PBXGroup;
+			children = (
+				ACD9CD2927BC099C003192E5 /* AddIncomeViewController.swift */,
+			);
+			path = Income;
+			sourceTree = "<group>";
+		};
+		ACB573EA27BA6CCB00FCB998 /* AllCategoriesTableView&Cell */ = {
+			isa = PBXGroup;
+			children = (
+				AC62237227E1EA6800850A8F /* AllCategoriesTableViewController.swift */,
+				AC62237827E1ED5900850A8F /* AllCategoriesTableViewCell.swift */,
+			);
+			path = "AllCategoriesTableView&Cell";
+			sourceTree = "<group>";
+		};
+		ACB573EB27BA6E4400FCB998 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				ACB5739727B582A500FCB998 /* MainViewController.swift */,
+				ACB573EC27BA6F3B00FCB998 /* MainTableViewCell.swift */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
+		ACBE264B27C72E2700F31C10 /* HistoricalAccounts */ = {
+			isa = PBXGroup;
+			children = (
+				ACBE264E27C798F700F31C10 /* HistoricalAccountsViewController.swift */,
+				ACBE265027C94A8800F31C10 /* HistoricalAccountsTableViewCell.swift */,
+			);
+			path = HistoricalAccounts;
+			sourceTree = "<group>";
+		};
+		ACBE265627CE266D00F31C10 /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				ACBE265427CE1CFE00F31C10 /* ReportViewController.swift */,
+				ACBE265727CE269C00F31C10 /* MonthlyReportViewController.swift */,
+				ACBE265D27D0ADC700F31C10 /* AnnualReportViewController.swift */,
+				ACBE265B27CFC9EE00F31C10 /* ReportTableViewCell.swift */,
+			);
+			path = Report;
+			sourceTree = "<group>";
+		};
+		ACBE267327D6072D00F31C10 /* Bank */ = {
+			isa = PBXGroup;
+			children = (
+				ACBE267827D6135C00F31C10 /* BankAccountsViewController.swift */,
+				ACBE267A27D6137100F31C10 /* BankAccountsTableViewCell.swift */,
+				ACBE268A27DE4E7200F31C10 /* TransferDetailsViewController.swift */,
+				AC62236C27E0A0A500850A8F /* WithdrawalDetailsViewController.swift */,
+				AC62236E27E0AFD900850A8F /* BankDetailTableViewCell.swift */,
+				ACBE268827DE4D9900F31C10 /* EditTransferDetailsViewController.swift */,
+				AC62236A27E0A07200850A8F /* EditWithdrawalDetailsViewController.swift */,
+			);
+			path = Bank;
+			sourceTree = "<group>";
+		};
+		ACBE267E27D65E0B00F31C10 /* TransferMoney */ = {
+			isa = PBXGroup;
+			children = (
+				ACBE266B27D5CA5A00F31C10 /* TransferMoneyViewController.swift */,
+			);
+			path = TransferMoney;
+			sourceTree = "<group>";
+		};
+		ACBE268327D9CB8800F31C10 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ACBE268427D9CB8800F31C10 /* CoreLocation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		ACD9CD2827BBD428003192E5 /* EditAccount */ = {
+			isa = PBXGroup;
+			children = (
+				ACD9CD2027BBC5FB003192E5 /* EditAccountViewController.swift */,
+			);
+			path = EditAccount;
+			sourceTree = "<group>";
+		};
+		ACD9CD3127BFBD3B003192E5 /* FrequentlyUsed */ = {
+			isa = PBXGroup;
+			children = (
+				ACD9CD6027C4CCB8003192E5 /* FrequentlyUsedViewController.swift */,
+				ACD9CD6227C4CDFF003192E5 /* FrequentlyUsedIncomeTableViewCell.swift */,
+				ACD9CD6427C4CE25003192E5 /* FrequentlyUsedIExpenditureTableViewCell.swift */,
+			);
+			path = FrequentlyUsed;
+			sourceTree = "<group>";
+		};
+		ACD9CD6627C51126003192E5 /* search */ = {
+			isa = PBXGroup;
+			children = (
+				ACD9CD3A27C14332003192E5 /* GoogleMapViewController.swift */,
+				ACD9CD3C27C1436C003192E5 /* GoogleMapTableViewCell.swift */,
+				ACD9CD4227C14C53003192E5 /* GoogleMapController.swift */,
+			);
+			path = search;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +376,47 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACB5739827B582A500FCB998 /* ViewController.swift in Sources */,
+				ACBE265E27D0ADC700F31C10 /* AnnualReportViewController.swift in Sources */,
+				ACD9CD6327C4CDFF003192E5 /* FrequentlyUsedIncomeTableViewCell.swift in Sources */,
+				ACB5739827B582A500FCB998 /* MainViewController.swift in Sources */,
+				ACBE265C27CFC9EE00F31C10 /* ReportTableViewCell.swift in Sources */,
+				ACD9CD6527C4CE25003192E5 /* FrequentlyUsedIExpenditureTableViewCell.swift in Sources */,
+				ACD9CD3D27C1436C003192E5 /* GoogleMapTableViewCell.swift in Sources */,
+				ACB573C227B6DAE200FCB998 /* Accounts.swift in Sources */,
+				AC62237127E1E01E00850A8F /* AllCategoriesEnum.swift in Sources */,
+				ACBE267927D6135C00F31C10 /* BankAccountsViewController.swift in Sources */,
+				ACB573E527B909A100FCB998 /* ItemsArray.swift in Sources */,
+				AC62236527E058BC00850A8F /* WithdrawMoneyViewController.swift in Sources */,
 				ACB5739427B582A500FCB998 /* AppDelegate.swift in Sources */,
+				ACBE267B27D6137100F31C10 /* BankAccountsTableViewCell.swift in Sources */,
+				ACBE268927DE4D9900F31C10 /* EditTransferDetailsViewController.swift in Sources */,
+				ACBE265127C94A8800F31C10 /* HistoricalAccountsTableViewCell.swift in Sources */,
+				ACBE266027D20D5800F31C10 /* AddKeyboardReturn.swift in Sources */,
+				AC62236B27E0A07200850A8F /* EditWithdrawalDetailsViewController.swift in Sources */,
+				ACBE267D27D6142900F31C10 /* BankAccounts.swift in Sources */,
+				AC62237927E1ED5900850A8F /* AllCategoriesTableViewCell.swift in Sources */,
+				ACBE266827D2253800F31C10 /* ProjectEnum.swift in Sources */,
+				ACD9CD4327C14C53003192E5 /* GoogleMapController.swift in Sources */,
+				ACD9CD4127C14C31003192E5 /* GoogleMap.swift in Sources */,
+				AC62236D27E0A0A500850A8F /* WithdrawalDetailsViewController.swift in Sources */,
+				ACBE265827CE269C00F31C10 /* MonthlyReportViewController.swift in Sources */,
+				ACBE266C27D5CA5A00F31C10 /* TransferMoneyViewController.swift in Sources */,
+				ACBE265527CE1CFE00F31C10 /* ReportViewController.swift in Sources */,
+				ACB573A827B6475E00FCB998 /* AddAccountViewController.swift in Sources */,
+				AC62236F27E0AFD900850A8F /* BankDetailTableViewCell.swift in Sources */,
+				ACBE268B27DE4E7200F31C10 /* TransferDetailsViewController.swift in Sources */,
 				ACB5739627B582A500FCB998 /* SceneDelegate.swift in Sources */,
+				ACD9CD2127BBC5FB003192E5 /* EditAccountViewController.swift in Sources */,
+				ACBE266A27D3642C00F31C10 /* NumberFormatter.swift in Sources */,
+				AC62237327E1EA6800850A8F /* AllCategoriesTableViewController.swift in Sources */,
+				ACD9CD3B27C14332003192E5 /* GoogleMapViewController.swift in Sources */,
+				ACD9CD5F27C4C3C1003192E5 /* FrequentlyUsed.swift in Sources */,
+				ACBE264F27C798F700F31C10 /* HistoricalAccountsViewController.swift in Sources */,
+				ACD9CD2C27BC0B16003192E5 /* AddExpenditureViewController.swift in Sources */,
+				ACB573ED27BA6F3B00FCB998 /* MainTableViewCell.swift in Sources */,
+				ACD9CD6127C4CCB8003192E5 /* FrequentlyUsedViewController.swift in Sources */,
+				ACD9CD2A27BC099C003192E5 /* AddIncomeViewController.swift in Sources */,
+				ACD9CD3027BEC8EE003192E5 /* ExpenditureOrIncome.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,19 +565,25 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4NV5CHC9Y8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AccountingAPP/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "來吃波奇";
+				INFOPLIST_KEY_NSCameraUsageDescription = "允許來吃波奇啟動拍照功能嗎";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Get location info to show you good services";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = yongshun.AccountingAPP;
+				PRODUCT_BUNDLE_IDENTIFIER = yoning.AccountingAPP;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -316,13 +598,19 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4NV5CHC9Y8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AccountingAPP/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "來吃波奇";
+				INFOPLIST_KEY_NSCameraUsageDescription = "允許來吃波奇啟動拍照功能嗎";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Get location info to show you good services";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
