@@ -67,6 +67,7 @@ class WithdrawalDetailsViewController: UIViewController {
             self.accounts = accounts
         }
         
+        withdrawDetailsSearchBar.addKeyboardReturn()
         updateWithdrawalBanksSequence()
         fetchYearAccounts()
         selectedYearAndMonthPickerView.reloadAllComponents()
@@ -257,7 +258,7 @@ extension WithdrawalDetailsViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty == false {
             specificMonthWithdrawalBanks = withdrawalBanks.filter ({ bankAccounts in
-                bankAccounts.note.localizedStandardContains(searchText)
+                bankAccounts.transferOutName.localizedStandardContains(searchText)
             })
         }else{
             specificMonthWithdrawalBanks = withdrawalBanks

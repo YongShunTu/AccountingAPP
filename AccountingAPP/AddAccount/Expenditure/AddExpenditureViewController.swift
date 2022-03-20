@@ -236,18 +236,6 @@ extension AddExpenditureViewController: UIImagePickerControllerDelegate, UINavig
         }
     }
     
-    func getTransferOutString(_ transferOutString: String) {
-        self.bankLabel.text = transferOutString
-    }
-    
-    func getSubTypeString(_ subTypeString: String) {
-        self.subTypeLabel.text = subTypeString
-    }
-    
-    func getCategoryString(_ categoryString: String) {
-        self.categoryString = categoryString
-    }
-    
     func getLocation(_ location: String) {
         locationLabel.text = location
     }

@@ -27,8 +27,6 @@ struct Accounts: Codable {
         guard let data = try? Data(contentsOf: url) else { return nil }
             let decoder = JSONDecoder()
         return try? decoder.decode([Accounts].self, from: data)
-        
-        
     }
     
     static func saveAccount(_ accounts: [Self]) {
@@ -37,5 +35,6 @@ struct Accounts: Codable {
         let url = documentDirectory.appendingPathComponent("account")
         try? data.write(to: url)
         }
+    
     }
 

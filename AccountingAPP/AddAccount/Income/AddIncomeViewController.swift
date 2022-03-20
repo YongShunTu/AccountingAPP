@@ -34,16 +34,16 @@ class AddIncomeViewController: UIViewController, UITextViewDelegate {
     }
     
     var isSelectImage = false
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateAddIncomeStyle()
-//        addTapGesture()
+        //        addTapGesture()
         NotificationCenter.default.addObserver(self, selector: #selector(frequentlyUsedIncome), name: AddAccountViewController.moveToIncomeNotification, object: nil)
         // Do any additional setup after loading the view.
     }
     
-
+    
     @objc func frequentlyUsedIncome(_ noti: Notification) {
         if let user = noti.userInfo,
            let commonIncomeAccount = user[ExpenditureOrIncome.income.rawValue] as? FrequentlyUsedIncome {
@@ -59,13 +59,13 @@ class AddIncomeViewController: UIViewController, UITextViewDelegate {
     
     
     func addTapGesture(){
-            let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-            view.addGestureRecognizer(tap)
-        }
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(tap)
+    }
     
     @objc private func hideKeyboard(){
-            self.view.endEditing(true)
-        }
+        self.view.endEditing(true)
+    }
     
     
     func updateAddIncomeStyle() {
@@ -81,7 +81,7 @@ class AddIncomeViewController: UIViewController, UITextViewDelegate {
         categoryString = incomeCategoryItems[0]
         projectLabel.text = incomeProjectItems[0]
         bankLabel.text = bankItems[0]
-//        selectDate.date = AddAccountViewController.selectedDate!
+        //        selectDate.date = AddAccountViewController.selectedDate!
         money.addKeyboardReturn()
         money.textColor = UIColor(red: 123/255, green: 139/255, blue: 111/255, alpha: 1)
         noteTextView.addKeyboardReturn()
@@ -96,6 +96,7 @@ class AddIncomeViewController: UIViewController, UITextViewDelegate {
             present(controller, animated: true, completion: nil)
         }
     }
+    
     
     
     @IBAction func subTypeButtonClicked(_ sender: UIButton) {
@@ -144,7 +145,7 @@ class AddIncomeViewController: UIViewController, UITextViewDelegate {
      */
     @IBAction func addIncome(_ sender: UIButton) {
         let alter = UIAlertController(title: "新增收入", message: "確定要新增此筆收入嗎", preferredStyle: .alert)
-
+        
         let cancle = UIAlertAction(title: "Cancle", style: .default, handler: nil)
         let okAction = UIAlertAction(title: "OK", style: .default) { action in
             var imageName: String?
@@ -177,7 +178,7 @@ class AddIncomeViewController: UIViewController, UITextViewDelegate {
             AddAccountViewController.addAccountDelegate?.addIncomeAccount(account)
             self.dismiss(animated: true, completion: nil)
         }
-
+        
         alter.addAction(cancle)
         alter.addAction(okAction)
         present(alter, animated: true, completion: nil)
@@ -253,25 +254,10 @@ extension AddIncomeViewController: UIImagePickerControllerDelegate, UINavigation
             self.bankLabel.text = itemsString
         case .project:
             self.projectLabel.text = itemsString
+            self.bankLabel.text = incomeProjectBankItems[itemsString]
         default:
             break
         }
-    }
-    
-    func getProjectString(_ projectString: String) {
-        self.projectLabel.text = projectString
-    }
-    
-    func getTransferInString(_ transferInString: String) {
-        self.bankLabel.text = transferInString
-    }
-
-    func getSubTypeString(_ subTypeString: String) {
-        self.subTypeLabel.text = subTypeString
-    }
-    
-    func getCategoryString(_ categoryString: String) {
-        self.categoryString = categoryString
     }
     
     func getLocation(_ location: String) {

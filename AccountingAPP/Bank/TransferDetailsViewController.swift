@@ -68,6 +68,7 @@ class TransferDetailsViewController: UIViewController {
             self.accounts = accounts
         }
         
+        transferDetailsSearchBar.addKeyboardReturn()
         updateBankAccountsSequence()
         fetchYearAccounts()
         selectedYearAndMonthPickerView.reloadAllComponents()
@@ -258,7 +259,7 @@ extension TransferDetailsViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty == false {
             specificMonthBankAccounts = bankAccounts.filter ({ bankAccounts in
-                bankAccounts.note.localizedStandardContains(searchText)
+                bankAccounts.transferOutName.localizedStandardContains(searchText)
             })
         }else{
             specificMonthBankAccounts = bankAccounts

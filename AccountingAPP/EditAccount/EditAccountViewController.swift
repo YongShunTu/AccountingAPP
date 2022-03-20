@@ -299,21 +299,10 @@ extension EditAccountViewController: UIImagePickerControllerDelegate, UINavigati
             self.bankLabel.text = itemsString
         case .project:
             self.projectLabel.text = itemsString
+            self.bankLabel.text = incomeProjectBankItems[itemsString]
         default:
             break
         }
-    }
-    
-    func getCategoryString(_ categoryString: String) {
-        self.categoryString = categoryString
-    }
-    
-    func getSubTypeString(_ subTypeString: String) {
-        self.subTypeLabel.text = subTypeString
-    }
-    
-    func getProjectString(_ projectString: String) {
-        self.projectLabel.text = projectString
     }
     
     func getLocation(_ location: String) {

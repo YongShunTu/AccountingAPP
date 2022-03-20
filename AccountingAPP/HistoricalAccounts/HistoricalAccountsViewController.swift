@@ -61,6 +61,7 @@ class HistoricalAccountsViewController: UIViewController {
         }
     }
     
+    var currentSearchBarText: String = ""
     
     
     
@@ -88,9 +89,11 @@ class HistoricalAccountsViewController: UIViewController {
             self.withdrawalBanks = withdrawalBanks
         }
         
+        historicalAccountsSearchBar.addKeyboardReturn()
         updateAccountsSequence()
         fetchYears()
         selectYearAndMonthPickerView.reloadAllComponents()
+//        historicalAccountsSearchBar.text = HistoricalAccountsViewController.currentSearchBarText
     }
     
     func fetchYears() {
@@ -302,9 +305,11 @@ extension HistoricalAccountsViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
+        currentSearchBarText = "雞肉"
+        
         if searchText.isEmpty == false {
-            specificMonthInAccounts = accounts.filter ({ accounts in
-                accounts.note.localizedStandardContains(searchText)
+            specificMonthInAccounts = specificMonthInAccounts.filter ({ accounts in
+                accounts.subtype.localizedStandardContains(currentSearchBarText)
             })
         }else{
             self.specificMonthInAccounts = fetchSpecificMonthInAccounts(self.accounts, yearAndMonthString)
