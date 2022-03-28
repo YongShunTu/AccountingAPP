@@ -19,6 +19,7 @@ struct Accounts: Codable {
     let bankAccounts: String
     let project: String
     let location: String
+    let accountsIndex: String
     
     static let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     

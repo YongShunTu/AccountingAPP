@@ -30,11 +30,11 @@ class EditTransferDetailsViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        updateStyle()
+        updateEditTransferDetailsStyle()
         updateEditTransferDetails()
     }
     
-    func updateStyle() {
+    func updateEditTransferDetailsStyle() {
         for view in allView {
             view.backgroundColor = UIColor(red: 231/255, green: 207/255, blue: 168/255, alpha: 0.4)
             view.layer.cornerRadius = 10
@@ -48,6 +48,17 @@ class EditTransferDetailsViewController: UIViewController {
         money.addKeyboardReturn()
         handlingFee.addKeyboardReturn()
         note.addKeyboardReturn()
+        addTapGesture()
+    }
+    
+    func addTapGesture(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func hideKeyboard(){
+        self.view.endEditing(true)
     }
     
     func updateEditTransferDetails() {
@@ -84,13 +95,16 @@ class EditTransferDetailsViewController: UIViewController {
             let transferOutString = self.transferOutLabel.text ?? ""
             let transferInString = self.transferInLabel.text ?? ""
             let note = self.note.text ?? ""
+            var index: String = ""
             
+            if let bankAccount = self.bankAccount {
+                index = bankAccount.bankAccountsIndex
+            }
             
+            let account = Accounts(expenditureOrIncome: ExpenditureOrIncome.expenditure.rawValue, imageName: nil, money: handlingFee, date: date, category: "雜費", subtype: "轉帳手續費", note: note, bankAccounts: transferOutString, project: "現金", location: "", accountsIndex: index)
             
-            let account = Accounts(expenditureOrIncome: ExpenditureOrIncome.expenditure.rawValue, imageName: nil, money: handlingFee, date: date, category: "雜費", subtype: "轉帳手續費", note: note, bankAccounts: transferOutString, project: "現金", location: "")
-//            self.delegate?.editAccounts(account)
+            let bankAccount = BankAccounts(transferOutName: transferOutString, transferInName: transferInString, transferOutmoney: money, transferInMoney: money, handlingFee: handlingFee, date: date, note: note, bankAccountsIndex: index)
             
-            let bankAccount = BankAccounts(transferOutName: transferOutString, transferInName: transferInString, transferOutmoney: money, transferInMoney: money, handlingFee: handlingFee, date: date, note: note)
             self.delegate?.editTransferDetails(bankAccount, account, handlingFee: handlingFee)
             
             self.dismiss(animated: true, completion: nil)

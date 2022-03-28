@@ -6,7 +6,6 @@
 //
 
 import UIKit
-//import MapKit
 import CoreLocation
 
 protocol GoogleMapViewControllerDelegate {
@@ -19,33 +18,21 @@ class GoogleMapViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var listActivity: UIActivityIndicatorView!
     @IBOutlet weak var listSearchBar: UISearchBar!
 
-//    let location = "25.04174,121.56661"
-//    var location: [CLLocationDegrees] = []
     var location: String = ""
 
-    let locationManger = CLLocationManager()
+    let locationManager = CLLocationManager()
     
     var lists = [Results]()
     var searchBarLabel: String?
     var googleDelegate: GoogleMapViewControllerDelegate?
     
-//    required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//    }
-    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        locationManger.delegate = self
-        locationManger.requestWhenInUseAuthorization()
-        locationManger.desiredAccuracy = kCLLocationAccuracyBest
-        locationManger.startUpdatingLocation()
-//        locationManger.requestLocation()
-//        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
 //
 //        // 定位的精準度
 //        locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -54,33 +41,13 @@ class GoogleMapViewController: UIViewController, CLLocationManagerDelegate {
 //        locationManager.requestLocation()
         // Do any additional setup after loading the view.
         listSearchBar.text = searchBarLabel
-//        GoogleMapController.shard.fetchNearLocation(location, keyWord: searchBarLabel ?? "" ) { (results) in
-//            switch results {
-//            case .success(let results):
-//                DispatchQueue.main.async {
-//                    self.updataList(results)
-//                }
-//            case .failure(let error):
-//                print("\(error)")
-//            }
-//        }
         listActivity.isHidden = true
 
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        manager.delegate = nil
+        manager.delegate = nil
         let currentLocation = locations.first!
-//        GoogleMapController.shard.fetchNearLocation([currentLocation.coordinate.latitude, currentLocation.coordinate.longitude], keyWord: searchBarLabel ?? "" ) { (results) in
-//            switch results {
-//            case .success(let results):
-//                DispatchQueue.main.async {
-//                    self.updataList(results)
-//                }
-//            case .failure(let error):
-//                print("\(error)")
-//            }
-//        }
         location = "\(String(currentLocation.coordinate.latitude)),\(String(currentLocation.coordinate.longitude))"
         GoogleMapController.shard.fetchNearLocation(location, keyWord: searchBarLabel ?? "" ) { (results) in
             switch results {
@@ -148,8 +115,8 @@ extension GoogleMapViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         listActivity.isHidden = false
-        
-        GoogleMapController.shard.fetchNearLocation(location, keyWord: searchText) { (results) in
+        searchBarLabel = searchText
+        GoogleMapController.shard.fetchNearLocation(location, keyWord: searchBarLabel ?? "") { (results) in
             switch results {
             case .success(let results):
                 DispatchQueue.main.async {

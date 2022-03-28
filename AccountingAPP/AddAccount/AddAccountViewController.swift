@@ -15,14 +15,14 @@ protocol AddAccountViewControllerDelegate {
 
 
 class AddAccountViewController: UIViewController {
-
+    
     let accountSelectString: [String] = ["收入", "支出", "常用", "轉帳", "提款"]
     
     static let moveToIncomeNotification = Notification.Name("moveToIncome")
     static let moveToExpenditureNotification = Notification.Name("moveToExpenditure")
     
-    static var selectedDate: Date? = nil
     static var addAccountDelegate: AddAccountViewControllerDelegate?
+    static var selectedDate: Date?
     
     @IBOutlet weak var accountSegmented: UISegmentedControl!
     @IBOutlet weak var accountScrollView: UIScrollView!
@@ -32,7 +32,7 @@ class AddAccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         navigationController?.navigationBar.tintColor = UIColor(red: 217/255, green: 191/255, blue: 132/255, alpha: 1)
         
         for index in 0...(accountSelectString.count - 1) {
@@ -79,15 +79,15 @@ class AddAccountViewController: UIViewController {
     }
     
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 extension AddAccountViewController: UIScrollViewDelegate {

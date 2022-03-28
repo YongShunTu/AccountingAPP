@@ -35,10 +35,25 @@ class TransferMoneyViewController: UIViewController {
         handlingFee.textColor = UIColor(red: 240/255, green: 164/255, blue: 141/255, alpha: 1)
         transferOutLabel.text = bankItems[0]
         transferInLabel.text = bankItems[1]
-//        selectedDate.date = AddAccountViewController.selectedDate!
+        selectedDate.date = AddAccountViewController.selectedDate!
         money.addKeyboardReturn()
         handlingFee.addKeyboardReturn()
         note.addKeyboardReturn()
+        addTapGesture()
+    }
+    
+    func addTapGesture(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func hideKeyboard(){
+        self.view.endEditing(true)
+    }
+    
+    @IBAction func colseKeyboard(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
     }
     
 
@@ -81,12 +96,13 @@ class TransferMoneyViewController: UIViewController {
             let transferOutString = self.transferOutLabel.text ?? ""
             let transferInString = self.transferInLabel.text ?? ""
             let note = self.note.text ?? ""
+            let index = UUID().uuidString
             
             
             
-            let account = Accounts(expenditureOrIncome: ExpenditureOrIncome.expenditure.rawValue, imageName: nil, money: handlingFee, date: date, category: "雜費", subtype: "轉帳手續費", note: note, bankAccounts: transferOutString, project: "現金", location: "")
+            let account = Accounts(expenditureOrIncome: ExpenditureOrIncome.expenditure.rawValue, imageName: nil, money: handlingFee, date: date, category: "雜費", subtype: "轉帳手續費", note: note, bankAccounts: transferOutString, project: "現金", location: "", accountsIndex: index)
             
-            let withdrawalBank = BankAccounts(transferOutName: transferOutString, transferInName: transferInString, transferOutmoney: money, transferInMoney: money, handlingFee: handlingFee, date: date, note: note)
+            let withdrawalBank = BankAccounts(transferOutName: transferOutString, transferInName: transferInString, transferOutmoney: money, transferInMoney: money, handlingFee: handlingFee, date: date, note: note, bankAccountsIndex: index)
             
             AddAccountViewController.addAccountDelegate?.addTransferMoneyHandlingFee(account, bankAccount: withdrawalBank, handlingFee: handlingFee)
 

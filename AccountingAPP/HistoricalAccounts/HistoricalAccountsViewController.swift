@@ -11,17 +11,17 @@ import Foundation
 class HistoricalAccountsViewController: UIViewController {
     
     @IBOutlet weak var historicalAccountsTableView: UITableView!
+    @IBOutlet weak var historicalAccountsTableViewBlockingView: UIView!
     @IBOutlet weak var selectYearAndMonthPickerView: UIPickerView!
     @IBOutlet weak var selectYearAndMonthButton: UIButton!
     @IBOutlet weak var selectPickerViewBlockingView: UIView!
     @IBOutlet weak var historicalAccountsSearchBar: UISearchBar!
-    
+    @IBOutlet weak var historicalAccountsTotalMoney: UILabel!
     
     var accounts = [Accounts]() {
         didSet {
-            print("test\(accounts)")
             Accounts.saveAccount(accounts)
-            specificMonthInAccounts = fetchSpecificMonthInAccounts(self.accounts, yearAndMonthString)
+            findSearchTextInSpecificMonthInAccounts(historicalAccountsSearchBar.text ?? "")
         }
     }
     
@@ -39,12 +39,13 @@ class HistoricalAccountsViewController: UIViewController {
     
     var specificMonthInAccounts = [Accounts]() {
         didSet {
-            print("\(specificMonthInAccounts)")
             if specificMonthInAccounts.count == 0 {
-                historicalAccountsTableView.alpha = 0
+                historicalAccountsTableViewBlockingView.alpha = 1
+                historicalAccountsTotalMoney.text = "總金額：\(NumberStyle.currencyStyle().string(from: NSNumber(value: calculateSpecificMonthInAccountsTatalMoney())) ?? "")"
                 historicalAccountsTableView.reloadData()
             }else{
-                historicalAccountsTableView.alpha = 1
+                historicalAccountsTableViewBlockingView.alpha = 0
+                historicalAccountsTotalMoney.text = "總金額：\(NumberStyle.currencyStyle().string(from: NSNumber(value: calculateSpecificMonthInAccountsTatalMoney())) ?? "")"
                 historicalAccountsTableView.reloadData()
             }
         }
@@ -57,28 +58,23 @@ class HistoricalAccountsViewController: UIViewController {
     var yearAndMonthString: String = "" {
         didSet {
             selectYearAndMonthButton.setTitle(yearAndMonthString, for: .normal)
-            specificMonthInAccounts = fetchSpecificMonthInAccounts(self.accounts, yearAndMonthString)
+            findSearchTextInSpecificMonthInAccounts(historicalAccountsSearchBar.text ?? "")
         }
     }
-    
-    var currentSearchBarText: String = ""
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        
+        addTapGesture()
+        //        registerForKeyboardNotifications()
         selectPickerViewBlockingView.alpha = 0
-        print("test")
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         if let accounts = Accounts.loadAccount() {
             self.accounts = accounts
-            print("\(years)")
         }
         
         if let bankAccounts = BankAccounts.loadBank() {
@@ -88,12 +84,42 @@ class HistoricalAccountsViewController: UIViewController {
         if let withdrawalBanks = WithdrawalBanks.loadBank() {
             self.withdrawalBanks = withdrawalBanks
         }
-        
         historicalAccountsSearchBar.addKeyboardReturn()
         updateAccountsSequence()
         fetchYears()
         selectYearAndMonthPickerView.reloadAllComponents()
-//        historicalAccountsSearchBar.text = HistoricalAccountsViewController.currentSearchBarText
+    }
+    
+    //    func registerForKeyboardNotifications() {
+    //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
+    //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    //    }
+    //
+    //    @objc func keyboardWasShown(_ notification: NSNotification) {
+    //        guard let info = notification.userInfo,
+    //              let keyboardFrameValue = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+    //        let keyboardFrame = keyboardFrameValue.cgRectValue
+    //        let keyboardSize = keyboardFrame.size
+    //        let contentInsets = keyboardSize.height - (view.bounds.height - historicalAccountsTableView.frame.maxY)
+    //            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0) {
+    //                print("\(contentInsets)")
+    //                self.tableBottomConstraint.constant = contentInsets
+    //            }
+    //
+    //    }
+    //
+    //    @objc func keyboardWillBeHidden(_ notification: NSNotification) {
+    //        self.tableBottomConstraint.constant = 0
+    //    }
+    
+    func addTapGesture(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func hideKeyboard(){
+        self.view.endEditing(true)
     }
     
     func fetchYears() {
@@ -116,7 +142,6 @@ class HistoricalAccountsViewController: UIViewController {
             }else{
                 return false
             }
-            
         }
         return newArray
     }
@@ -131,7 +156,7 @@ class HistoricalAccountsViewController: UIViewController {
     
     func findIndexInAccounts(_ deleteAccountsInDate: Accounts) -> Int {
         for (index, account) in self.accounts.enumerated() {
-            if account.date == deleteAccountsInDate.date {
+            if account.accountsIndex == deleteAccountsInDate.accountsIndex {
                 return index
             }
         }
@@ -140,7 +165,7 @@ class HistoricalAccountsViewController: UIViewController {
     
     func findIndexInBankAccounts(_ indexDate: Accounts) -> Int? {
         for (index, bankAccount) in self.bankAccounts.enumerated() {
-            if bankAccount.date == indexDate.date {
+            if bankAccount.bankAccountsIndex == indexDate.accountsIndex {
                 return index
             }
         }
@@ -149,11 +174,31 @@ class HistoricalAccountsViewController: UIViewController {
     
     func findIndexInWithdrawalBanks(_ indexDate: Accounts) -> Int? {
         for (index, withdrawalBank) in self.withdrawalBanks.enumerated() {
-            if withdrawalBank.date == indexDate.date {
+            if withdrawalBank.withdrawalBanksIndex == indexDate.accountsIndex {
                 return index
             }
         }
         return nil
+    }
+    
+    func calculateSpecificMonthInAccountsTatalMoney() -> Double {
+        let total = specificMonthInAccounts.reduce(0.0) { partialResult, account in
+            switch ExpenditureOrIncome.init(rawValue: account.expenditureOrIncome) {
+            case .income:
+                return partialResult + account.money
+            case .expenditure:
+                return partialResult - account.money
+            default:
+                break
+            }
+            return partialResult
+        }
+        if total >= 0 {
+            historicalAccountsTotalMoney.textColor = UIColor(red: 123/255, green: 139/255, blue: 111/255, alpha: 1)
+        }else{
+            historicalAccountsTotalMoney.textColor = UIColor(red: 240/255, green: 164/255, blue: 141/255, alpha: 1)
+        }
+        return total
     }
     
     
@@ -304,25 +349,28 @@ extension HistoricalAccountsViewController: UIPickerViewDelegate, UIPickerViewDa
 extension HistoricalAccountsViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        currentSearchBarText = "雞肉"
-        
-        if searchText.isEmpty == false {
-            specificMonthInAccounts = specificMonthInAccounts.filter ({ accounts in
-                accounts.subtype.localizedStandardContains(currentSearchBarText)
-            })
-        }else{
-            self.specificMonthInAccounts = fetchSpecificMonthInAccounts(self.accounts, yearAndMonthString)
-        }
+        findSearchTextInSpecificMonthInAccounts(searchText)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        findSearchTextInSpecificMonthInAccounts(searchBar.text ?? "")
         searchBar.resignFirstResponder()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
     }
+    
+    func findSearchTextInSpecificMonthInAccounts(_ searchText: String) {
+        if searchText.isEmpty == false {
+            specificMonthInAccounts = fetchSpecificMonthInAccounts(self.accounts, yearAndMonthString).filter ({ accounts in
+                accounts.subtype.localizedStandardContains(searchText) || accounts.project.localizedStandardContains(searchText) || accounts.note.localizedStandardContains(searchText)
+            })
+        }else{
+            self.specificMonthInAccounts = fetchSpecificMonthInAccounts(self.accounts, yearAndMonthString)
+        }
+    }
+    
 }
 
 extension HistoricalAccountsViewController: EditAccountViewControllerDelegate {

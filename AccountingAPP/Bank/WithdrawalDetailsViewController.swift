@@ -25,7 +25,7 @@ class WithdrawalDetailsViewController: UIViewController {
         didSet {
             print("test\(withdrawalBanks)")
             WithdrawalBanks.saveBank(withdrawalBanks)
-            specificMonthWithdrawalBanks = fetchSpecificMonthInBankAccounts(withdrawalBanks, yearAndMonthString)
+            findSearchTextInSpecificMonthInWithdrawalBanks(withdrawDetailsSearchBar.text ?? "")
         }
     }
     
@@ -50,8 +50,8 @@ class WithdrawalDetailsViewController: UIViewController {
     var yearAndMonthString: String = "" {
         didSet {
             selectedYearAndMonthButton.setTitle(yearAndMonthString, for: .normal)
-            //            specificDateInAccounts = accounts
-            specificMonthWithdrawalBanks = fetchSpecificMonthInBankAccounts(self.withdrawalBanks, yearAndMonthString)
+            WithdrawalBanks.saveBank(withdrawalBanks)
+            findSearchTextInSpecificMonthInWithdrawalBanks(withdrawDetailsSearchBar.text ?? "")
         }
     }
     
@@ -109,7 +109,7 @@ class WithdrawalDetailsViewController: UIViewController {
     
     func findIndexInAccounts(_ indexInWithdrawalBanks: WithdrawalBanks) -> Int? {
         for (index, account) in self.accounts.enumerated() {
-            if account.date == indexInWithdrawalBanks.date {
+            if account.accountsIndex == indexInWithdrawalBanks.withdrawalBanksIndex {
                 return index
             }
         }
@@ -118,7 +118,7 @@ class WithdrawalDetailsViewController: UIViewController {
     
     func findIndexInWithdrawalBanks(_ indexInWithdrawalBanks: WithdrawalBanks) -> Int {
         for (index, bankAccount) in self.withdrawalBanks.enumerated() {
-            if bankAccount.date == indexInWithdrawalBanks.date {
+            if bankAccount.withdrawalBanksIndex == indexInWithdrawalBanks.withdrawalBanksIndex {
                 return index
             }
         }
@@ -255,32 +255,39 @@ extension WithdrawalDetailsViewController: UIPickerViewDelegate, UIPickerViewDat
 }
 
 extension WithdrawalDetailsViewController: UISearchBarDelegate {
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.isEmpty == false {
-            specificMonthWithdrawalBanks = withdrawalBanks.filter ({ bankAccounts in
-                bankAccounts.transferOutName.localizedStandardContains(searchText)
-            })
-        }else{
-            specificMonthWithdrawalBanks = withdrawalBanks
-        }
+findSearchTextInSpecificMonthInWithdrawalBanks(searchText)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        findSearchTextInSpecificMonthInWithdrawalBanks(searchBar.text ?? "")
         withdrawDetailsSearchBar.resignFirstResponder()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
     }
+    
+    func findSearchTextInSpecificMonthInWithdrawalBanks(_ searchText: String) {
+        if searchText.isEmpty == false {
+            specificMonthWithdrawalBanks = fetchSpecificMonthInBankAccounts(self.withdrawalBanks, yearAndMonthString).filter ({ bankAccounts in
+                bankAccounts.transferOutName.localizedStandardContains(searchText)
+            })
+        }else{
+            specificMonthWithdrawalBanks = fetchSpecificMonthInBankAccounts(self.withdrawalBanks, yearAndMonthString)
+        }
+    }
+    
 }
 
 extension WithdrawalDetailsViewController: EditWithdrawalDetailsViewControllerDelegate {
+    
     func editWithdrawalDetails(_ withdrawalBank: WithdrawalBanks, _ account: Accounts, handlingFee: Double) {
         if let row = withdrawDetailsTableView.indexPathForSelectedRow?.row {
             let withdrawalBanksIndex = findIndexInWithdrawalBanks(specificMonthWithdrawalBanks[row])
             
             if let accountIndex = findIndexInAccounts(specificMonthWithdrawalBanks[row]) {
-                print("\(accountIndex)")
                 if handlingFee != 0 {
                     accounts[accountIndex] = account
                 }else{

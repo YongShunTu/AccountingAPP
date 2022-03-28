@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import MapKit
 import CoreLocation
 
 class GoogleMapController {
@@ -16,7 +15,7 @@ class GoogleMapController {
     static let shard = GoogleMapController()
     
     func fetchNearLocation(_ location: String, keyWord: String, completion: @escaping (Result<[Results],Error>) -> Void) {
-        if let url = URL(string: "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(location)&radius=10000&keyword=\(keyWord)&language=zh-TW&key=\(api_Key)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") {
+        if let url = URL(string: "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(location)&radius=2000&keyword=\(keyWord)&language=zh-TW&key=\(api_Key)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") {
             var request = URLRequest(url: url)
             request.httpMethod = "GET"
             URLSession.shared.dataTask(with: request) { data, response, error in

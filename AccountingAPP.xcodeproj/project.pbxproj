@@ -15,6 +15,7 @@
 		AC62237327E1EA6800850A8F /* AllCategoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC62237227E1EA6800850A8F /* AllCategoriesTableViewController.swift */; };
 		AC62237927E1ED5900850A8F /* AllCategoriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC62237827E1ED5900850A8F /* AllCategoriesTableViewCell.swift */; };
 		AC8F702B27E5AE2B000070C2 /* TransferMoneyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8F702A27E5AE2B000070C2 /* TransferMoneyViewController.swift */; };
+		AC8F702D27EC9015000070C2 /* KeyboardContentInset.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8F702C27EC9015000070C2 /* KeyboardContentInset.swift */; };
 		ACB5739427B582A500FCB998 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB5739327B582A500FCB998 /* AppDelegate.swift */; };
 		ACB5739627B582A500FCB998 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB5739527B582A500FCB998 /* SceneDelegate.swift */; };
 		ACB5739827B582A500FCB998 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB5739727B582A500FCB998 /* MainViewController.swift */; };
@@ -43,7 +44,7 @@
 		ACD9CD2127BBC5FB003192E5 /* EditAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD2027BBC5FB003192E5 /* EditAccountViewController.swift */; };
 		ACD9CD2A27BC099C003192E5 /* AddIncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD2927BC099C003192E5 /* AddIncomeViewController.swift */; };
 		ACD9CD2C27BC0B16003192E5 /* AddExpenditureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD2B27BC0B16003192E5 /* AddExpenditureViewController.swift */; };
-		ACD9CD3027BEC8EE003192E5 /* ExpenditureOrIncome.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD2F27BEC8EE003192E5 /* ExpenditureOrIncome.swift */; };
+		ACD9CD3027BEC8EE003192E5 /* ExpenditureOrIncomeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD2F27BEC8EE003192E5 /* ExpenditureOrIncomeEnum.swift */; };
 		ACD9CD3B27C14332003192E5 /* GoogleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD3A27C14332003192E5 /* GoogleMapViewController.swift */; };
 		ACD9CD3D27C1436C003192E5 /* GoogleMapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD3C27C1436C003192E5 /* GoogleMapTableViewCell.swift */; };
 		ACD9CD4127C14C31003192E5 /* GoogleMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9CD4027C14C31003192E5 /* GoogleMap.swift */; };
@@ -63,6 +64,7 @@
 		AC62237227E1EA6800850A8F /* AllCategoriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesTableViewController.swift; sourceTree = "<group>"; };
 		AC62237827E1ED5900850A8F /* AllCategoriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesTableViewCell.swift; sourceTree = "<group>"; };
 		AC8F702A27E5AE2B000070C2 /* TransferMoneyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferMoneyViewController.swift; sourceTree = "<group>"; };
+		AC8F702C27EC9015000070C2 /* KeyboardContentInset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardContentInset.swift; sourceTree = "<group>"; };
 		ACB5739027B582A500FCB998 /* AccountingAPP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AccountingAPP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACB5739327B582A500FCB998 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ACB5739527B582A500FCB998 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,7 +95,7 @@
 		ACD9CD2027BBC5FB003192E5 /* EditAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountViewController.swift; sourceTree = "<group>"; };
 		ACD9CD2927BC099C003192E5 /* AddIncomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIncomeViewController.swift; sourceTree = "<group>"; };
 		ACD9CD2B27BC0B16003192E5 /* AddExpenditureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenditureViewController.swift; sourceTree = "<group>"; };
-		ACD9CD2F27BEC8EE003192E5 /* ExpenditureOrIncome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenditureOrIncome.swift; sourceTree = "<group>"; };
+		ACD9CD2F27BEC8EE003192E5 /* ExpenditureOrIncomeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenditureOrIncomeEnum.swift; sourceTree = "<group>"; };
 		ACD9CD3A27C14332003192E5 /* GoogleMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapViewController.swift; sourceTree = "<group>"; };
 		ACD9CD3C27C1436C003192E5 /* GoogleMapTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapTableViewCell.swift; sourceTree = "<group>"; };
 		ACD9CD4027C14C31003192E5 /* GoogleMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMap.swift; sourceTree = "<group>"; };
@@ -158,11 +160,12 @@
 				ACB5739C27B582A600FCB998 /* Assets.xcassets */,
 				ACB5739E27B582A600FCB998 /* LaunchScreen.storyboard */,
 				ACB573A127B582A600FCB998 /* Info.plist */,
-				ACD9CD2F27BEC8EE003192E5 /* ExpenditureOrIncome.swift */,
+				ACD9CD2F27BEC8EE003192E5 /* ExpenditureOrIncomeEnum.swift */,
 				ACBE265F27D20D5800F31C10 /* AddKeyboardReturn.swift */,
 				ACBE266727D2253800F31C10 /* ProjectEnum.swift */,
 				ACBE266927D3642C00F31C10 /* NumberFormatter.swift */,
 				AC62237027E1E01E00850A8F /* AllCategoriesEnum.swift */,
+				AC8F702C27EC9015000070C2 /* KeyboardContentInset.swift */,
 			);
 			path = AccountingAPP;
 			sourceTree = "<group>";
@@ -410,13 +413,14 @@
 				ACBE266A27D3642C00F31C10 /* NumberFormatter.swift in Sources */,
 				AC62237327E1EA6800850A8F /* AllCategoriesTableViewController.swift in Sources */,
 				ACD9CD3B27C14332003192E5 /* GoogleMapViewController.swift in Sources */,
+				AC8F702D27EC9015000070C2 /* KeyboardContentInset.swift in Sources */,
 				ACD9CD5F27C4C3C1003192E5 /* FrequentlyUsed.swift in Sources */,
 				ACBE264F27C798F700F31C10 /* HistoricalAccountsViewController.swift in Sources */,
 				ACD9CD2C27BC0B16003192E5 /* AddExpenditureViewController.swift in Sources */,
 				ACB573ED27BA6F3B00FCB998 /* MainTableViewCell.swift in Sources */,
 				ACD9CD6127C4CCB8003192E5 /* FrequentlyUsedViewController.swift in Sources */,
 				ACD9CD2A27BC099C003192E5 /* AddIncomeViewController.swift in Sources */,
-				ACD9CD3027BEC8EE003192E5 /* ExpenditureOrIncome.swift in Sources */,
+				ACD9CD3027BEC8EE003192E5 /* ExpenditureOrIncomeEnum.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,7 +569,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 5A59YVG9DY;
+				DEVELOPMENT_TEAM = 4NV5CHC9Y8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AccountingAPP/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "來吃波奇";
@@ -583,7 +587,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = yongshun.AccountingAPP;
+				PRODUCT_BUNDLE_IDENTIFIER = yoning1.AccountingAPP;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

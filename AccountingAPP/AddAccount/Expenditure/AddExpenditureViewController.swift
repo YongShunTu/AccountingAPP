@@ -8,7 +8,7 @@
 import UIKit
 
 class AddExpenditureViewController: UIViewController {
-
+    
     static let addFrequentlyUsedExpenditureNotification = Notification.Name("addFrequentlyExpenditure")
     var account: Accounts?
     
@@ -19,6 +19,7 @@ class AddExpenditureViewController: UIViewController {
     @IBOutlet weak var subTypeLabel: UILabel!
     @IBOutlet weak var bankLabel: UILabel!
     @IBOutlet weak var noteTextView: UITextView!
+    @IBOutlet weak var textView: UIView!
     @IBOutlet weak var projectLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var buttonPhoto: UIButton!
@@ -31,12 +32,6 @@ class AddExpenditureViewController: UIViewController {
         }
     }
     
-//    var subTypeString: String = "" {
-//        didSet {
-//            subTypeLabel.text = subTypeString
-//        }
-//    }
-    
     var isSelectImage = false
     
     
@@ -46,18 +41,6 @@ class AddExpenditureViewController: UIViewController {
         updateAddExpenditureStyle()
         NotificationCenter.default.addObserver(self, selector: #selector(frequentlyUsedExpenditure), name: AddAccountViewController.moveToExpenditureNotification, object: nil)
         // Do any additional setup after loading the view.
-    }
-    
-    @objc func frequentlyUsedExpenditure(_ noti: Notification) {
-        if let user = noti.userInfo,
-           let commonIncomeAccount = user[ExpenditureOrIncome.expenditure.rawValue] as? FrequentlyUsedExpenditure {
-            money.text = String(format: "%.0f", commonIncomeAccount.money)
-            categoryLabel.text = commonIncomeAccount.category
-            subTypeLabel.text = commonIncomeAccount.subtype
-            noteTextView.text = commonIncomeAccount.note
-            projectLabel.text = commonIncomeAccount.project
-            locationLabel.text = commonIncomeAccount.location
-        }
     }
     
     func updateAddExpenditureStyle() {
@@ -72,10 +55,60 @@ class AddExpenditureViewController: UIViewController {
         categoryString = expenditureCategoryItems[0]
         projectLabel.text = incomeProjectItems[0]
         bankLabel.text = bankItems[0]
-//        selectDate.date = AddAccountViewController.selectedDate!
+        selectDate.date = AddAccountViewController.selectedDate!
         money.addKeyboardReturn()
-        money.textColor = UIColor(red: 240/255, green: 164/255, blue: 141/255, alpha: 1)
         noteTextView.addKeyboardReturn()
+        registerForKeyboardNotifications()
+        addTapGesture()
+        money.textColor = UIColor(red: 240/255, green: 164/255, blue: 141/255, alpha: 1)
+    }
+    
+    func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWasShown(_ notification: NSNotification) {
+        guard let info = notification.userInfo,
+              let keyboardFrameValue = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardFrame = keyboardFrameValue.cgRectValue
+        let keyboardSize = keyboardFrame.size
+        let contentInsets = keyboardSize.height - (view.bounds.height - textView.frame.maxY)
+        if noteTextView.isFirstResponder {
+            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0) {
+                self.view.bounds.origin.y = contentInsets
+            }
+        }else{
+            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0) {
+                self.view.bounds.origin.y = 0
+            }
+        }
+    }
+    
+    @objc func keyboardWillBeHidden(_ notification: NSNotification) {
+        view.frame.origin.y = 0
+    }
+    
+    func addTapGesture(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func hideKeyboard(){
+        self.view.endEditing(true)
+    }
+    
+    @objc func frequentlyUsedExpenditure(_ noti: Notification) {
+        if let user = noti.userInfo,
+           let commonIncomeAccount = user[ExpenditureOrIncome.expenditure.rawValue] as? FrequentlyUsedExpenditure {
+            money.text = String(format: "%.0f", commonIncomeAccount.money)
+            categoryLabel.text = commonIncomeAccount.category
+            subTypeLabel.text = commonIncomeAccount.subtype
+            noteTextView.text = commonIncomeAccount.note
+            projectLabel.text = commonIncomeAccount.project
+            locationLabel.text = commonIncomeAccount.location
+        }
     }
     
     
@@ -129,10 +162,10 @@ class AddExpenditureViewController: UIViewController {
      */
     @IBAction func addExpenditure(_ sender: UIButton) {
         let alter = UIAlertController(title: "新增支出", message: "確定要新增此筆支出嗎", preferredStyle: .alert)
-
+        
         let cancle = UIAlertAction(title: "Cancle", style: .default, handler: nil)
         let okAction = UIAlertAction(title: "OK", style: .default) { action in
-        var imageName: String?
+            var imageName: String?
             let money = Double(self.money.text ?? "") ?? 0.0
             let data = self.selectDate.date
             let category = self.categoryLabel.text ?? ""
@@ -141,23 +174,24 @@ class AddExpenditureViewController: UIViewController {
             let bankAccounts = self.bankLabel.text ?? ""
             let project = self.projectLabel.text ?? ""
             let location = self.locationLabel.text ?? ""
-
-        if self.isSelectImage {
-            imageName = UUID().uuidString
-            let imageData = self.buttonPhoto.image(for: .normal)?.jpegData(compressionQuality: 0.5)
-            let imageURL = Accounts.documentDirectory.appendingPathComponent(imageName!).appendingPathExtension("jpeg")
-            try? imageData?.write(to: imageURL)
-        }
-        
-        let account = Accounts(expenditureOrIncome: ExpenditureOrIncome.expenditure.rawValue, imageName: imageName, money: money, date: data, category: category, subtype: subtype, note: note, bankAccounts: bankAccounts, project: project, location: location)
+            let index = UUID().uuidString
+            
+            if self.isSelectImage {
+                imageName = UUID().uuidString
+                let imageData = self.buttonPhoto.image(for: .normal)?.jpegData(compressionQuality: 0.5)
+                let imageURL = Accounts.documentDirectory.appendingPathComponent(imageName!).appendingPathExtension("jpeg")
+                try? imageData?.write(to: imageURL)
+            }
+            
+            let account = Accounts(expenditureOrIncome: ExpenditureOrIncome.expenditure.rawValue, imageName: imageName, money: money, date: data, category: category, subtype: subtype, note: note, bankAccounts: bankAccounts, project: project, location: location, accountsIndex: index)
             AddAccountViewController.addAccountDelegate?.addExpenditureAccount(account)
             self.dismiss(animated: true, completion: nil)
         }
-
+        
         alter.addAction(cancle)
         alter.addAction(okAction)
         present(alter, animated: true, completion: nil)
-
+        
     }
     
     @IBAction func addFrequentlyUsedExpenditureButtonClicked(_ sender: UIButton) {
@@ -191,7 +225,7 @@ class AddExpenditureViewController: UIViewController {
         
     }
     
-
+    
     
     @IBAction func selectButtonPhoto(_ sender: UIButton) {
         let alter = UIAlertController(title: "照片選擇", message: nil, preferredStyle: .alert)
@@ -239,7 +273,7 @@ extension AddExpenditureViewController: UIImagePickerControllerDelegate, UINavig
     func getLocation(_ location: String) {
         locationLabel.text = location
     }
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         isSelectImage = true
         if let image = info[.originalImage] as? UIImage {

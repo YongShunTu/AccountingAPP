@@ -26,7 +26,7 @@ class MainViewController: UIViewController {
     var accounts = [Accounts]() {
         didSet {
             Accounts.saveAccount(accounts)
-            specificDateInAccounts = findSpecificDateInAccounts(self.accounts, today.date)
+            specificDateInAccounts = fetchSpecificDateInAccounts(self.accounts, today.date)
             showMoneyInThisMonth(date: today.date)
         }
     }
@@ -59,15 +59,15 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-
-
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         if let account = Accounts.loadAccount() {
             self.accounts = account
             updateAccountsSequence()
-            print("\(accounts)\(bankAccounts)")
+            print("\(Accounts.documentDirectory.appendingPathComponent("account").path)")
         }
         
         if let bankAccounts = BankAccounts.loadBank() {
@@ -101,8 +101,25 @@ class MainViewController: UIViewController {
         }
     }
     
-    func calculateThisMonth(_ expenditureOrIncome: ExpenditureOrIncome, date: Date) -> Double {
-        let array = self.accounts.filter { (account) in
+    
+    
+    @IBAction func selectDate(_ sender: UIDatePicker) {
+        specificDateInAccounts = fetchSpecificDateInAccounts(self.accounts, sender.date)
+        showMoneyInThisMonth(date: sender.date)
+        print("\(specificDateInAccounts)")
+    }
+    
+    func showMoneyInThisMonth(date: Date) {
+        income = calculateThisMonthMoney(.income, date: date)
+        expenditure = calculateThisMonthMoney(.expenditure, date: date)
+        total = income - expenditure
+        incomeThisMonth.text = NumberStyle.currencyStyle().string(from: NSNumber(value: income))
+        expenditureThisMonth.text = NumberStyle.currencyStyle().string(from: NSNumber(value: expenditure))
+        balanceThisMonth.text = NumberStyle.currencyStyle().string(from: NSNumber(value: (income - expenditure)))
+    }
+    
+    func calculateThisMonthMoney(_ expenditureOrIncome: ExpenditureOrIncome, date: Date) -> Double {
+        let newArray = self.accounts.filter { (account) in
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy/MM"
             let day = dateFormatter.string(from: account.date)
@@ -113,33 +130,16 @@ class MainViewController: UIViewController {
             return false
         }
         
-        let total = array.reduce(0.0) { partialResult, account in
+        let total = newArray.reduce(0.0) { partialResult, account in
             return partialResult + account.money
         }
-        
+
         return total
     }
+
     
     
-    @IBAction func selectDate(_ sender: UIDatePicker) {
-        specificDateInAccounts = findSpecificDateInAccounts(self.accounts, sender.date)
-        showMoneyInThisMonth(date: sender.date)
-        print("\(specificDateInAccounts)")
-        print("\(today.date)\(accounts)")
-    }
-    
-    func showMoneyInThisMonth(date: Date) {
-        income = calculateThisMonth(.income, date: date)
-        expenditure = calculateThisMonth(.expenditure, date: date)
-        total = income - expenditure
-        incomeThisMonth.text = NumberStyle.currencyStyle().string(from: NSNumber(value: income))!
-        expenditureThisMonth.text = NumberStyle.currencyStyle().string(from: NSNumber(value: expenditure))!
-        balanceThisMonth.text = NumberStyle.currencyStyle().string(from: NSNumber(value: (income - expenditure)))!
-        
-    }
-    
-    
-    func findSpecificDateInAccounts(_ accounts: [Accounts], _ date: Date) -> [Accounts] {
+    func fetchSpecificDateInAccounts(_ accounts: [Accounts], _ date: Date) -> [Accounts] {
         let newArray = accounts.filter { account in
             let dateForMatter = DateFormatter()
             dateForMatter.dateFormat = "yyyy/MM/dd"
@@ -157,7 +157,7 @@ class MainViewController: UIViewController {
     
     func findIndexInAccounts(_ indexDate: Accounts) -> Int {
         for (index, account) in self.accounts.enumerated() {
-            if account.date == indexDate.date {
+            if account.accountsIndex == indexDate.accountsIndex {
                 return index
             }
         }
@@ -166,7 +166,7 @@ class MainViewController: UIViewController {
     
     func findIndexInBankAccounts(_ indexDate: Accounts) -> Int? {
         for (index, bankAccount) in self.bankAccounts.enumerated() {
-            if bankAccount.date == indexDate.date {
+            if bankAccount.bankAccountsIndex == indexDate.accountsIndex {
                 return index
             }
         }
@@ -175,7 +175,7 @@ class MainViewController: UIViewController {
     
     func findIndexInWithdrawalBanks(_ indexDate: Accounts) -> Int? {
         for (index, withdrawalBank) in self.withdrawalBanks.enumerated() {
-            if withdrawalBank.date == indexDate.date {
+            if withdrawalBank.withdrawalBanksIndex == indexDate.accountsIndex {
                 return index
             }
         }
@@ -186,6 +186,7 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         specificDateInAccounts.count
     }
@@ -236,8 +237,8 @@ extension MainViewController: UITableViewDataSource {
         }
         
         if segue.destination is AddAccountViewController {
-//            AddAccountViewController.selectedDate = today.date
             AddAccountViewController.addAccountDelegate = self
+            AddAccountViewController.selectedDate = today.date
         }
     }
     
@@ -245,6 +246,17 @@ extension MainViewController: UITableViewDataSource {
 }
 
 extension MainViewController: EditAccountViewControllerDelegate, AddAccountViewControllerDelegate {
+    
+    func addIncomeAccount(_ account: Accounts) {
+        self.accounts.insert(account, at: 0)
+        updateAccountsSequence()
+    }
+    
+    func addExpenditureAccount(_ account: Accounts) {
+        self.accounts.insert(account, at: 0)
+        updateAccountsSequence()
+    }
+
     func addWithdrawMoneyHandlingFee(_ account: Accounts, withdrawalBank: WithdrawalBanks, handlingFee: Double) {
         if handlingFee != 0.0 {
             self.accounts.insert(account, at: 0)
@@ -263,16 +275,6 @@ extension MainViewController: EditAccountViewControllerDelegate, AddAccountViewC
         }else{
             self.bankAccounts.insert(bankAccount, at: 0)
         }
-    }
-    
-    func addExpenditureAccount(_ account: Accounts) {
-        self.accounts.insert(account, at: 0)
-        updateAccountsSequence()
-    }
-    
-    func addIncomeAccount(_ account: Accounts) {
-        self.accounts.insert(account, at: 0)
-        updateAccountsSequence()
     }
     
     func editAccount(edit account: Accounts) {

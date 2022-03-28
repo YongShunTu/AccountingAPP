@@ -13,17 +13,8 @@ class BankAccountsViewController: UIViewController {
     @IBOutlet weak var allBankAccountsTotalMoney: UILabel!
     
     var accounts = [Accounts]()
-//        didSet {
-//            bankAccountsTableView.reloadData()
-//        }
-//    }
     
     var bankAccounts = [BankAccounts]()
-//        didSet {
-//            BankAccounts.saveBank(bankAccounts)
-//            bankAccountsTableView.reloadData()
-//        }
-//    }
     
     var withdrawalBanks = [WithdrawalBanks]()
     
@@ -47,7 +38,6 @@ class BankAccountsViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        //        NotificationCenter.default.addObserver(self, selector: #selector(updateBankAccounts), name: TransferMoneyViewController.transferMoneyNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,22 +62,6 @@ class BankAccountsViewController: UIViewController {
         bankAccountsTableView.reloadData()
     }
     
-    //    @objc func updateBankAccounts(_ noti: Notification) {
-    //        if let user = noti.userInfo,
-    //           let bankAccount = user[TransferMoneyViewController.transferMoneyNotificationKey] as? BankAccounts {
-    //            bankAccounts.insert(bankAccount, at: 0)
-    ////            updateBankAccountsSequence()
-    //            print("testBankAccounts")
-    //        }
-    //    }
-    
-    //    func updateBankAccountsSequence() {
-    //        self.bankAccounts = bankAccounts.sorted(by: { lhs, rhs in
-    //            let lhsTime = lhs.date
-    //            let rhsTime = rhs.date
-    //            return lhsTime > rhsTime
-    //        })
-    //    }
     
     func calculateSpecificBankAccountsMoney() {
         let accounts = self.accounts.reduce(into: [String: Double]()) { counts, accounts in
@@ -154,6 +128,7 @@ class BankAccountsViewController: UIViewController {
 
 
 extension BankAccountsViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         bankItems.count
     }
@@ -220,15 +195,17 @@ extension BankAccountsViewController: UITableViewDelegate, UITableViewDataSource
                         self.calculateSpecificBankAccountsMoney()
                         self.allBankAccountsTotalMoney.text = "波奇淨資產\n\(NumberStyle.currencyStyle().string(from: NSNumber(value: self.calculateAllBankAccountsTotalMoney())) ?? "")"
                     }
-                    let cancleAction = UIAlertAction(title: "cancle", style: .default, handler: nil)
+                    let cancleAction = UIAlertAction(title: "Cancle", style: .default, handler: nil)
                     
                     alter.addAction(cancleAction)
                     alter.addAction(okAction)
                     self.showDetailViewController(alter, sender: nil)
                 }
                 alter.addAction(bankAction)
-                self.showDetailViewController(alter, sender: nil)
             }
+            let cancleAction = UIAlertAction(title: "Cancle", style: .default, handler: nil)
+            alter.addAction(cancleAction)
+            self.showDetailViewController(alter, sender: nil)
         }
         
         alter.addAction(transferDetailsAction)

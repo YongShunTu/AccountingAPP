@@ -14,12 +14,6 @@ class FrequentlyUsedViewController: UIViewController {
     static let frequentlyIncomeNotification = Notification.Name("frequentlyIncome")
     static let frequentlyExpeditureNotification = Notification.Name("frequentlyExpediture")
 
-//    var commonAccounts = [CommonlyUsedAccount]() {
-//        didSet {
-//            CommonlyUsedAccount.saveCommonAccounts(commonAccounts)
-//            frequentlyUsedTableView.reloadData()
-//        }
-//    }
     var frequentlyUsedIncome = [FrequentlyUsedIncome]() {
         didSet {
             FrequentlyUsedIncome.saveFrequentlyUsedIncome(frequentlyUsedIncome)
@@ -44,14 +38,9 @@ class FrequentlyUsedViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(addFrequentlyUsedIncome), name: AddIncomeViewController.addFrequentlyUsedIncomeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(addFrequentlyUsedExpenditure), name: AddExpenditureViewController.addFrequentlyUsedExpenditureNotification, object: nil)
-        //        CommonAccounts = CommonlyUsedViewController.accounts
         // Do any additional setup after loading the view.
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-//        print("\(commonAccounts)")
-        //        print("\(CommonlyUsedViewController.accounts)")
-    }
     
     @objc func addFrequentlyUsedIncome(_ noti: Notification) {
         if let user = noti.userInfo,
@@ -94,19 +83,12 @@ extension FrequentlyUsedViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-//            let accountCount = commonAccounts.reduce(into: [:]) { counts, account in
-//                counts[account.expenditureOrIncome, default: 0] += 1
-//            }
-//            return accountCount[ExpenditureOrIncome.income.rawValue] ?? 0
             return frequentlyUsedIncome.count
         case 1:
-//            let accountCount = commonAccounts.reduce(into: [:]) { counts, account in
-//                counts[account.expenditureOrIncome, default: 0] += 1
-//            }
-//            return accountCount[ExpenditureOrIncome.expenditure.rawValue] ?? 0
             return frequentlyUsedExpenditure.count
         default:
             break
@@ -114,23 +96,11 @@ extension FrequentlyUsedViewController: UITableViewDataSource {
         return 0
     }
     
-//    func commonExpenditureOrIncome(_ accounts: [CommonlyUsedAccount], _ expenditureOrIncome: ExpenditureOrIncome) -> [CommonlyUsedAccount] {
-//        let newArray = accounts.filter { account in
-//            if account.expenditureOrIncome == expenditureOrIncome.rawValue {
-//                return true
-//            }else{
-//                return false
-//            }
-//        }
-//        return newArray
-//    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.section {
         case 0:
             guard let cell = frequentlyUsedTableView.dequeueReusableCell(withIdentifier: "\(FrequentlyUsedIncomeTableViewCell.self)", for: indexPath) as? FrequentlyUsedIncomeTableViewCell else { return UITableViewCell() }
-//            let commonIncome = commonExpenditureOrIncome(self.commonAccounts, .income)
             let income = frequentlyUsedIncome[indexPath.row]
             cell.incomePhoto.image = UIImage(named: "\(income.category)")
             cell.incomeTitleLabel.text = income.tittle
@@ -144,7 +114,6 @@ extension FrequentlyUsedViewController: UITableViewDataSource {
             return cell
         case 1:
             guard let cell = frequentlyUsedTableView.dequeueReusableCell(withIdentifier: "\(FrequentlyUsedIExpenditureTableViewCell.self)", for: indexPath) as? FrequentlyUsedIExpenditureTableViewCell else { return UITableViewCell() }
-//            let commonExpenditure = commonExpenditureOrIncome(self.commonAccounts, .expenditure)
             let expenditure = frequentlyUsedExpenditure[indexPath.row]
             cell.expenditurePhoto.image = UIImage(named: "\(expenditure.category)")
             cell.expenditureTitleLabel.text = expenditure.tittle
@@ -164,13 +133,11 @@ extension FrequentlyUsedViewController: UITableViewDataSource {
     }
     
     @objc func moveToIncomeViewController(_ sender: UIButton) {
-//        let commonIncome = commonExpenditureOrIncome(self.commonAccounts, .income)
         let account = frequentlyUsedIncome[sender.tag]
         NotificationCenter.default.post(name: FrequentlyUsedViewController.frequentlyIncomeNotification, object: nil, userInfo: [ExpenditureOrIncome.income.rawValue: account])
     }
     
     @objc func moveToExpenditureViewController(_ sender: UIButton) {
-//        let commonExpenditure = commonExpenditureOrIncome(self.commonAccounts, .expenditure)
         let account = frequentlyUsedExpenditure[sender.tag]
         NotificationCenter.default.post(name: FrequentlyUsedViewController.frequentlyExpeditureNotification, object: nil, userInfo: [ExpenditureOrIncome.expenditure.rawValue: account])
     }
@@ -179,15 +146,11 @@ extension FrequentlyUsedViewController: UITableViewDataSource {
         switch indexPath.section {
         case 0:
             if editingStyle == .delete {
-//                let incomeAccounts = commonExpenditureOrIncome(self.commonAccounts, .income)
-//                let row = findIndexInCommonAccounts(incomeAccounts[indexPath.row])
                 frequentlyUsedIncome.remove(at: indexPath.row)
                 frequentlyUsedTableView.deleteRows(at: [indexPath], with: .automatic)
             }
         case 1:
             if editingStyle == .delete {
-//                let expenditureAccounts = commonExpenditureOrIncome(self.commonAccounts, .expenditure)
-//                let row = findIndexInCommonAccounts(expenditureAccounts[indexPath.row])
                 frequentlyUsedExpenditure.remove(at: indexPath.row)
                 frequentlyUsedTableView.deleteRows(at: [indexPath], with: .automatic)
             }
@@ -195,15 +158,6 @@ extension FrequentlyUsedViewController: UITableViewDataSource {
             break
         }
     }
-    
-//    func findIndexInCommonAccounts(_ deleteAccountsInDate: CommonlyUsedAccount) -> Int {
-//        for (index, account) in self.commonAccounts.enumerated() {
-//            if account.project == deleteAccountsInDate.project {
-//                return index
-//            }
-//        }
-//        return 0
-//    }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {

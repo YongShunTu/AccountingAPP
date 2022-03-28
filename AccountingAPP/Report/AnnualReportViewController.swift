@@ -27,7 +27,7 @@ class AnnualReportViewController: UIViewController {
         didSet {
             calculatePercentage()
             showPathView()
-            totalRevenue.text = "總營收：\(NumberStyle.currencyStyle().string(from: NSNumber(value: calculateMonthlyIncome()))!)"
+            totalRevenue.text = "總營收：\(NumberStyle.currencyStyle().string(from: NSNumber(value: calculateMonthlyIncome(.allIncome)))!)"
             annualReportTableView.reloadData()
         }
     }
@@ -91,7 +91,7 @@ class AnnualReportViewController: UIViewController {
         
         let aDegree = CGFloat.pi / 180
         let radius: CGFloat = 125
-        let incomeTotal = calculateMonthlyIncome()
+        let incomeTotal = calculateMonthlyIncome(.allIncome)
         var startDegree: CGFloat = 270
         
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 2*(radius), height: 2*(radius)))
@@ -142,7 +142,9 @@ class AnnualReportViewController: UIViewController {
         label.font = UIFont.systemFont(ofSize: 9)
         label.numberOfLines = 2
         label.textAlignment = .center
-        label.text = "\(percentageText)\n\(String(format: "%.2f", percentage))%"
+        if percentage >= 3 {
+            label.text = "\(percentageText)\n\(String(format: "%.2f", percentage))%"
+        }
         label.sizeToFit()
         label.center = textPath.currentPoint
         return label
@@ -173,10 +175,17 @@ class AnnualReportViewController: UIViewController {
         return newArray
     }
     
-    func calculateMonthlyIncome() -> Double {
+    func calculateMonthlyIncome(_ income: allIncome) -> Double {
         let total = self.specificYearsInAccounts.reduce(0.0) { partialResult, accounts in
             if accounts.expenditureOrIncome == ExpenditureOrIncome.income.rawValue {
-                return partialResult + accounts.money
+                switch income {
+                case .income:
+                    if accounts.category == "收入" {
+                        return partialResult + accounts.money
+                    }
+                case .allIncome:
+                    return partialResult + accounts.money
+                }
             }
             return partialResult
         }
@@ -195,17 +204,17 @@ class AnnualReportViewController: UIViewController {
     
     func calculatePercentage() {
         let percentageReport = self.specificYearsInAccounts.reduce(into: [String: Double]()) { counts, accounts in
+            var money = accounts.money
+            let incomeTotal = self.calculateMonthlyIncome(.income)
+            let expensesTotal = self.calulateMothlyExpenses()
+            let percentage = (incomeTotal - expensesTotal) / incomeTotal
             switch ExpenditureOrIncome.init(rawValue: accounts.expenditureOrIncome) {
             case .income:
-                var money = accounts.money
-                let incomeTotal = self.calculateMonthlyIncome()
-                let expensesTotal = self.calulateMothlyExpenses()
-                let percentage = (incomeTotal - expensesTotal) / incomeTotal
-                money *= percentage
-                print("\(money) \(incomeTotal) \(expensesTotal) \(percentage)")
+                if accounts.category == "收入" {
+                    money *= percentage
+                }
                 counts[accounts.category, default: 0] += money
             case .expenditure:
-                let money = accounts.money
                 counts[accounts.category, default: 0] += money
             case .none:
                 break
@@ -228,7 +237,7 @@ extension AnnualReportViewController: UITableViewDelegate, UITableViewDataSource
         guard let cell = annualReportTableView.dequeueReusableCell(withIdentifier: "\(ReportTableViewCell.self)", for: indexPath) as? ReportTableViewCell else
         { return UITableViewCell() }
         let account = percentages[indexPath.row]
-        let totalmoney = calculateMonthlyIncome()
+        let totalmoney = calculateMonthlyIncome(.allIncome)
         cell.categoryLabel.text = account.key
         cell.moneyLabel.text = NumberStyle.currencyStyle().string(from: NSNumber(value: account.value))!
         cell.percentageLabel.text = "\(String(format: "%.2f", account.value / totalmoney * 100))%"

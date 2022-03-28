@@ -64,12 +64,6 @@ class AllCategoriesTableViewController: UITableViewController {
         return cell
     }
     
-    
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        delegate?.getCategoryString(items[indexPath.row])
-//        dismiss(animated: true, completion: nil)
-//    }
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             delegate?.getItemsString(itemsName, items[indexPath.row])
             dismiss(animated: true, completion: nil)

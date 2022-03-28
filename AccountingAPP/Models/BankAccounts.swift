@@ -15,6 +15,7 @@ struct BankAccounts: Codable {
     var handlingFee: Double
     let date: Date
     let note: String
+    let bankAccountsIndex: String
     
     static let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     
@@ -63,6 +64,7 @@ struct WithdrawalBanks: Codable {
     var transferOutMoney: Double
     var date: Date
     let note: String
+    let withdrawalBanksIndex: String
     
     static let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     

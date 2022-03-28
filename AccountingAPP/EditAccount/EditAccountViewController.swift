@@ -23,6 +23,7 @@ class EditAccountViewController: UIViewController {
     @IBOutlet weak var subTypeLabel: UILabel!
     @IBOutlet weak var bankLabel: UILabel!
     @IBOutlet weak var noteTextView: UITextView!
+    @IBOutlet weak var textView: UIView!
     @IBOutlet weak var projectLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var buttonPhoto: UIButton!
@@ -54,13 +55,63 @@ class EditAccountViewController: UIViewController {
         
 
         upDateEditAccount()
-        allViewStyle()
+        updateEditAccountStyle()
         // Do any additional setup after loading the view.
+    }
+    
+    func updateEditAccountStyle() {
+        for view in allView {
+            view.backgroundColor = UIColor(red: 231/255, green: 207/255, blue: 168/255, alpha: 0.4)
+            view.layer.cornerRadius = 10
+            view.layer.borderWidth = 1
+            view.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+        }
+        buttonPhoto.clipsToBounds = true
+        buttonPhoto.layer.cornerRadius = 10
+        money.addKeyboardReturn()
+        noteTextView.addKeyboardReturn()
+        registerForKeyboardNotifications()
+        addTapGesture()
+    }
+    
+    func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWasShown(_ notification: NSNotification) {
+        guard let info = notification.userInfo,
+              let keyboardFrameValue = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardFrame = keyboardFrameValue.cgRectValue
+        let keyboardSize = keyboardFrame.size
+        let contentInsets = keyboardSize.height - (view.bounds.height - (textView.frame.maxY + (textView.superview?.frame.minY ?? 0)))
+        if noteTextView.isFirstResponder {
+            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0) {
+                self.view.bounds.origin.y = contentInsets
+            }
+        }else{
+            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0) {
+                self.view.bounds.origin.y = 0
+            }
+        }
+    }
+    
+    @objc func keyboardWillBeHidden(_ notification: NSNotification) {
+        view.frame.origin.y = 0
+    }
+    
+    func addTapGesture(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func hideKeyboard(){
+        self.view.endEditing(true)
     }
     
     func upDateEditAccount() {
         if let account = self.account {
-            //            money.text = account.money
             switch foodpandaOrUber.init(rawValue: account.project) {
             case .FoodPanda:
                 money.text = String(format: "%.0f", (account.money / 0.7))
@@ -96,20 +147,6 @@ class EditAccountViewController: UIViewController {
             }
         }
         
-    }
-    
-    
-    func allViewStyle() {
-        for view in allView {
-            view.backgroundColor = UIColor(red: 231/255, green: 207/255, blue: 168/255, alpha: 0.4)
-            view.layer.cornerRadius = 10
-            view.layer.borderWidth = 1
-            view.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 0.3)
-        }
-        buttonPhoto.clipsToBounds = true
-        buttonPhoto.layer.cornerRadius = 10
-        money.addKeyboardReturn()
-        noteTextView.addKeyboardReturn()
     }
     
     
@@ -186,19 +223,6 @@ class EditAccountViewController: UIViewController {
         }
     }
     
-    @IBAction func deleteAccount(_ sender: UIButton) {
-        let alter = UIAlertController(title: "刪除", message: "確定要刪除此筆紀錄嗎", preferredStyle: .alert)
-        let cancleAction = UIAlertAction(title: "Cancle", style: .default, handler: nil)
-        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
-            if let account = self.account {
-                self.delegate?.deleteAccount(delete: account)
-                self.dismiss(animated: true, completion: nil)
-            }
-        }
-        alter.addAction(cancleAction)
-        alter.addAction(okAction)
-        present(alter, animated: true, completion: nil)
-    }
     /*
      // MARK: - Navigation
      
@@ -223,6 +247,7 @@ class EditAccountViewController: UIViewController {
             let bankAccounts = self.bankLabel.text ?? ""
             let project = self.projectLabel.text ?? ""
             let location = self.locationLabel.text ?? ""
+            var index: String = ""
             
             switch foodpandaOrUber.init(rawValue: project) {
             case .FoodPanda:
@@ -236,6 +261,7 @@ class EditAccountViewController: UIViewController {
             if let account = self.account {
                 imageName = account.imageName
                 expenditureOrIncome = account.expenditureOrIncome
+                index = account.accountsIndex
             }
             
             if self.isSelectImage {
@@ -245,7 +271,8 @@ class EditAccountViewController: UIViewController {
                 try? imageData?.write(to: imageURL)
             }
             
-            let editAccounts = Accounts(expenditureOrIncome: expenditureOrIncome, imageName: imageName, money: money, date: data, category: category, subtype: subtype, note: note, bankAccounts: bankAccounts, project: project, location: location)
+            let editAccounts = Accounts(expenditureOrIncome: expenditureOrIncome, imageName: imageName, money: money, date: data, category: category, subtype: subtype, note: note, bankAccounts: bankAccounts, project: project, location: location, accountsIndex: index)
+            
             self.delegate?.editAccount(edit: editAccounts)
             self.dismiss(animated: true, completion: nil)
         }
@@ -254,6 +281,21 @@ class EditAccountViewController: UIViewController {
         alter.addAction(okAction)
         present(alter, animated: true, completion: nil)
     }
+    
+    @IBAction func deleteAccount(_ sender: UIButton) {
+        let alter = UIAlertController(title: "刪除", message: "確定要刪除此筆紀錄嗎", preferredStyle: .alert)
+        let cancleAction = UIAlertAction(title: "Cancle", style: .default, handler: nil)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            if let account = self.account {
+                self.delegate?.deleteAccount(delete: account)
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+        alter.addAction(cancleAction)
+        alter.addAction(okAction)
+        present(alter, animated: true, completion: nil)
+    }
+    
     @IBAction func dismissEditAccountViewButtonClicked(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }

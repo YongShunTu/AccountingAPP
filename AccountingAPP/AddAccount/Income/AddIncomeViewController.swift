@@ -19,10 +19,10 @@ class AddIncomeViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var subTypeLabel: UILabel!
     @IBOutlet weak var bankLabel: UILabel!
     @IBOutlet weak var noteTextView: UITextView!
+    @IBOutlet weak var textView: UIView!
     @IBOutlet weak var projectLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var buttonPhoto: UIButton!
-    
     
     var account: Accounts?
     
@@ -38,35 +38,10 @@ class AddIncomeViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateAddIncomeStyle()
-        //        addTapGesture()
         NotificationCenter.default.addObserver(self, selector: #selector(frequentlyUsedIncome), name: AddAccountViewController.moveToIncomeNotification, object: nil)
         // Do any additional setup after loading the view.
+        
     }
-    
-    
-    @objc func frequentlyUsedIncome(_ noti: Notification) {
-        if let user = noti.userInfo,
-           let commonIncomeAccount = user[ExpenditureOrIncome.income.rawValue] as? FrequentlyUsedIncome {
-            money.text = String(format: "%.0f", commonIncomeAccount.money)
-            categoryLabel.text = commonIncomeAccount.category
-            subTypeLabel.text = commonIncomeAccount.subtype
-            noteTextView.text = commonIncomeAccount.note
-            projectLabel.text = commonIncomeAccount.project
-            locationLabel.text = commonIncomeAccount.location
-            print("text text text")
-        }
-    }
-    
-    
-    func addTapGesture(){
-        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc private func hideKeyboard(){
-        self.view.endEditing(true)
-    }
-    
     
     func updateAddIncomeStyle() {
         for view in allView {
@@ -81,10 +56,61 @@ class AddIncomeViewController: UIViewController, UITextViewDelegate {
         categoryString = incomeCategoryItems[0]
         projectLabel.text = incomeProjectItems[0]
         bankLabel.text = bankItems[0]
-        //        selectDate.date = AddAccountViewController.selectedDate!
+        selectDate.date = AddAccountViewController.selectedDate!
         money.addKeyboardReturn()
-        money.textColor = UIColor(red: 123/255, green: 139/255, blue: 111/255, alpha: 1)
         noteTextView.addKeyboardReturn()
+        registerForKeyboardNotifications()
+        addTapGesture()
+        money.textColor = UIColor(red: 123/255, green: 139/255, blue: 111/255, alpha: 1)
+    }
+    
+    func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWasShown(_ notification: NSNotification) {
+        guard let info = notification.userInfo,
+              let keyboardFrameValue = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardFrame = keyboardFrameValue.cgRectValue
+        let keyboardSize = keyboardFrame.size
+        let contentInsets = keyboardSize.height - (view.bounds.height - textView.frame.maxY)
+        if noteTextView.isFirstResponder {
+            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0) {
+                self.view.bounds.origin.y = contentInsets
+            }
+        }else{
+            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0) {
+                self.view.bounds.origin.y = 0
+            }
+        }
+    }
+    
+    @objc func keyboardWillBeHidden(_ notification: NSNotification) {
+        self.view.bounds.origin.y = 0
+    }
+    
+    func addTapGesture(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func hideKeyboard(){
+        self.view.endEditing(true)
+    }
+    
+    
+    @objc func frequentlyUsedIncome(_ noti: Notification) {
+        if let user = noti.userInfo,
+           let commonIncomeAccount = user[ExpenditureOrIncome.income.rawValue] as? FrequentlyUsedIncome {
+            money.text = String(format: "%.0f", commonIncomeAccount.money)
+            categoryLabel.text = commonIncomeAccount.category
+            subTypeLabel.text = commonIncomeAccount.subtype
+            noteTextView.text = commonIncomeAccount.note
+            projectLabel.text = commonIncomeAccount.project
+            locationLabel.text = commonIncomeAccount.location
+        }
     }
     
     
@@ -157,6 +183,7 @@ class AddIncomeViewController: UIViewController, UITextViewDelegate {
             let bankAccounts = self.bankLabel.text ?? ""
             let project = self.projectLabel.text ?? ""
             let location = self.locationLabel.text ?? ""
+            let index = UUID().uuidString
             
             switch foodpandaOrUber.init(rawValue: project) {
             case .FoodPanda:
@@ -174,7 +201,7 @@ class AddIncomeViewController: UIViewController, UITextViewDelegate {
                 try? imageData?.write(to: imageURL)
             }
             
-            let account = Accounts(expenditureOrIncome: ExpenditureOrIncome.income.rawValue, imageName: imageName, money: money, date: data, category: category, subtype: subtype, note: note, bankAccounts: bankAccounts, project: project, location: location)
+            let account = Accounts(expenditureOrIncome: ExpenditureOrIncome.income.rawValue, imageName: imageName, money: money, date: data, category: category, subtype: subtype, note: note, bankAccounts: bankAccounts, project: project, location: location, accountsIndex: index)
             AddAccountViewController.addAccountDelegate?.addIncomeAccount(account)
             self.dismiss(animated: true, completion: nil)
         }

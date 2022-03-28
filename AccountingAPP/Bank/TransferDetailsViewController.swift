@@ -25,7 +25,7 @@ class TransferDetailsViewController: UIViewController {
         didSet {
             print("test\(bankAccounts)")
             BankAccounts.saveBank(bankAccounts)
-            specificMonthBankAccounts = fetchSpecificMonthInBankAccounts(bankAccounts, yearAndMonthString)
+            findSearchTextInSpecificMonthInBankAccounts(transferDetailsSearchBar.text ?? "")
         }
     }
     
@@ -50,8 +50,7 @@ class TransferDetailsViewController: UIViewController {
     var yearAndMonthString: String = "" {
         didSet {
             selectedYearAndMonthButton.setTitle(yearAndMonthString, for: .normal)
-            //            specificDateInAccounts = accounts
-            specificMonthBankAccounts = fetchSpecificMonthInBankAccounts(self.bankAccounts, yearAndMonthString)
+            findSearchTextInSpecificMonthInBankAccounts(transferDetailsSearchBar.text ?? "")
         }
     }
     
@@ -110,7 +109,7 @@ class TransferDetailsViewController: UIViewController {
     
     func findIndexInAccounts(_ indexInBankAccounts: BankAccounts) -> Int? {
         for (index, account) in self.accounts.enumerated() {
-            if account.date == indexInBankAccounts.date {
+            if account.accountsIndex == indexInBankAccounts.bankAccountsIndex {
                 return index
             }
         }
@@ -119,7 +118,7 @@ class TransferDetailsViewController: UIViewController {
     
     func findIndexInBankAccounts(_ indexInBankAccounts: BankAccounts) -> Int {
         for (index, bankAccount) in self.bankAccounts.enumerated() {
-            if bankAccount.date == indexInBankAccounts.date {
+            if bankAccount.bankAccountsIndex == indexInBankAccounts.bankAccountsIndex {
                 return index
             }
         }
@@ -256,26 +255,33 @@ extension TransferDetailsViewController: UIPickerViewDelegate, UIPickerViewDataS
 }
 
 extension TransferDetailsViewController: UISearchBarDelegate {
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.isEmpty == false {
-            specificMonthBankAccounts = bankAccounts.filter ({ bankAccounts in
-                bankAccounts.transferOutName.localizedStandardContains(searchText)
-            })
-        }else{
-            specificMonthBankAccounts = bankAccounts
-        }
+        findSearchTextInSpecificMonthInBankAccounts(searchText)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        findSearchTextInSpecificMonthInBankAccounts(searchBar.text ?? "")
         transferDetailsSearchBar.resignFirstResponder()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
     }
+    
+    func findSearchTextInSpecificMonthInBankAccounts(_ searchText: String) {
+        if searchText.isEmpty == false {
+            specificMonthBankAccounts = fetchSpecificMonthInBankAccounts(self.bankAccounts, yearAndMonthString).filter ({ bankAccounts in
+                bankAccounts.transferOutName.localizedStandardContains(searchText)
+            })
+        }else{
+            specificMonthBankAccounts = fetchSpecificMonthInBankAccounts(self.bankAccounts, yearAndMonthString)
+        }
+    }
 }
 
 extension TransferDetailsViewController: EditTransferDetailsViewControllerDelegate {
+    
     func editTransferDetails(_ bankAcoount: BankAccounts, _ account: Accounts, handlingFee: Double) {
         if let row = transferDetailsTableView.indexPathForSelectedRow?.row {
             let bankAccountIndex = findIndexInBankAccounts(specificMonthBankAccounts[row])

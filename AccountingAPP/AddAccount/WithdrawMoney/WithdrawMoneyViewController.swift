@@ -33,7 +33,7 @@ class WithdrawMoneyViewController: UIViewController {
         money.textColor = UIColor(red: 123/255, green: 139/255, blue: 111/255, alpha: 1)
         handlingFee.textColor = UIColor(red: 240/255, green: 164/255, blue: 141/255, alpha: 1)
         transferOutLabel.text = bankItems[0]
-//        selectedDate.date = AddAccountViewController.selectedDate!
+        selectedDate.date = AddAccountViewController.selectedDate!
         money.addKeyboardReturn()
         handlingFee.addKeyboardReturn()
         note.addKeyboardReturn()
@@ -42,6 +42,7 @@ class WithdrawMoneyViewController: UIViewController {
     
     func addTapGesture(){
             let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        tap.cancelsTouchesInView = false
             view.addGestureRecognizer(tap)
         }
     
@@ -79,12 +80,13 @@ class WithdrawMoneyViewController: UIViewController {
             let date = self.selectedDate.date
             let transferOutString = self.transferOutLabel.text ?? ""
             let note = self.note.text ?? ""
+            let index = UUID().uuidString
             
             
             
-            let account = Accounts(expenditureOrIncome: ExpenditureOrIncome.expenditure.rawValue, imageName: nil, money: handlingFee, date: date, category: "雜費", subtype: "提款手續費", note: note, bankAccounts: transferOutString, project: "現金", location: "")
+            let account = Accounts(expenditureOrIncome: ExpenditureOrIncome.expenditure.rawValue, imageName: nil, money: handlingFee, date: date, category: "雜費", subtype: "提款手續費", note: note, bankAccounts: transferOutString, project: "現金", location: "", accountsIndex: index)
             
-            let withdrawalBank = WithdrawalBanks(money: money, handlingFee: handlingFee, transferOutName: transferOutString, transferOutMoney: money, date: date, note: note)
+            let withdrawalBank = WithdrawalBanks(money: money, handlingFee: handlingFee, transferOutName: transferOutString, transferOutMoney: money, date: date, note: note, withdrawalBanksIndex: index)
             
             AddAccountViewController.addAccountDelegate?.addWithdrawMoneyHandlingFee(account, withdrawalBank: withdrawalBank, handlingFee: handlingFee)
 
