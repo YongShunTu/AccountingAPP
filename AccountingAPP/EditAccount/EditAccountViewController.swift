@@ -75,7 +75,7 @@ class EditAccountViewController: UIViewController {
     }
     
     func registerForKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
@@ -97,7 +97,7 @@ class EditAccountViewController: UIViewController {
     }
     
     @objc func keyboardWillBeHidden(_ notification: NSNotification) {
-        view.frame.origin.y = 0
+        self.view.bounds.origin.y = 0
     }
     
     func addTapGesture(){
