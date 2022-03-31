@@ -97,32 +97,29 @@ class MonthlyReportViewController: UIViewController {
     func showPathView() {
         
         let aDegree = CGFloat.pi / 180
-        let radius: CGFloat = 125
+        let radius: CGFloat = pathView.bounds.width / 2
         let incomeTotal = calculateMonthlyIncome(.allIncome)
         var startDegree: CGFloat = 270
-        
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 2*(radius), height: 2*(radius)))
-
         var layerColorIndex = 0
         
         for percentage in percentages {
             if incomeTotal != 0 {
                 let value = percentage.value / incomeTotal * 100
                 let endDegree = startDegree + 360 * value / 100
+                let pathViewBoundsCenter = CGPoint(x: pathView.bounds.maxX / 2, y: pathView.bounds.maxY / 2)
                 let percentagePath = UIBezierPath()
-                percentagePath.move(to: view.center)
-                percentagePath.addArc(withCenter: view.center, radius: radius, startAngle: aDegree * startDegree, endAngle: aDegree * endDegree, clockwise: true)
+                percentagePath.move(to: pathViewBoundsCenter)
+                percentagePath.addArc(withCenter: pathViewBoundsCenter, radius: radius, startAngle: aDegree * startDegree, endAngle: aDegree * endDegree, clockwise: true)
                 
                 let percentageLayer = CAShapeLayer()
                 percentageLayer.path = percentagePath.cgPath
                 percentageLayer.fillColor = layerColor[layerColorIndex].cgColor
                 layerColorIndex += 1
-                view.layer.addSublayer(percentageLayer)
-                view.addSubview(self.createLabel(percentage: value, percentageText: percentage.key, starDegree: startDegree, radius: radius, aDegree: aDegree, center: view.center))
-                self.pathView.addSubview(view)
+                pathView.layer.addSublayer(percentageLayer)
+                pathView.addSubview(self.createLabel(percentage: value, percentageText: percentage.key, starDegree: startDegree, radius: radius, aDegree: aDegree, center: pathViewBoundsCenter))
                 startDegree = endDegree
             }
-
+            
         }
     }
     
@@ -188,7 +185,7 @@ class MonthlyReportViewController: UIViewController {
             if accounts.expenditureOrIncome == ExpenditureOrIncome.income.rawValue {
                 switch income {
                 case .income:
-                    if accounts.category == "收入" {
+                    if accounts.subtype == "當天營收" {
                         return partialResult + accounts.money
                     }
                 case .allIncome:
@@ -218,7 +215,7 @@ class MonthlyReportViewController: UIViewController {
             let percentage = (incomeTotal - expensesTotal) / incomeTotal
             switch ExpenditureOrIncome.init(rawValue: accounts.expenditureOrIncome) {
             case .income:
-                if accounts.category == "收入" {
+                if accounts.subtype == "當天營收" {
                     money *= percentage
                 }
                 counts[accounts.category, default: 0] += money

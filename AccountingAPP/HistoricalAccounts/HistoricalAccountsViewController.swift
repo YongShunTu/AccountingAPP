@@ -52,7 +52,7 @@ class HistoricalAccountsViewController: UIViewController {
     }
     
     var years: [String] = []
-    var months: [String] = ["01月", "02月", "03月", "04月", "05月", "06月", "07月", "08月", "09月", "10月", "11月", "12月"]
+    let months: [String] = ["01月", "02月", "03月", "04月", "05月", "06月", "07月", "08月", "09月", "10月", "11月", "12月"]
     var currentYearString: String = ""
     var currentMonthString: String = ""
     var yearAndMonthString: String = "" {
@@ -67,7 +67,6 @@ class HistoricalAccountsViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         addTapGesture()
-        //        registerForKeyboardNotifications()
         selectPickerViewBlockingView.alpha = 0
     }
     
@@ -89,28 +88,6 @@ class HistoricalAccountsViewController: UIViewController {
         fetchYears()
         selectYearAndMonthPickerView.reloadAllComponents()
     }
-    
-    //    func registerForKeyboardNotifications() {
-    //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
-    //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-    //    }
-    //
-    //    @objc func keyboardWasShown(_ notification: NSNotification) {
-    //        guard let info = notification.userInfo,
-    //              let keyboardFrameValue = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-    //        let keyboardFrame = keyboardFrameValue.cgRectValue
-    //        let keyboardSize = keyboardFrame.size
-    //        let contentInsets = keyboardSize.height - (view.bounds.height - historicalAccountsTableView.frame.maxY)
-    //            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0) {
-    //                print("\(contentInsets)")
-    //                self.tableBottomConstraint.constant = contentInsets
-    //            }
-    //
-    //    }
-    //
-    //    @objc func keyboardWillBeHidden(_ notification: NSNotification) {
-    //        self.tableBottomConstraint.constant = 0
-    //    }
     
     func addTapGesture(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
@@ -327,14 +304,13 @@ extension HistoricalAccountsViewController: UIPickerViewDelegate, UIPickerViewDa
         if let yearIndex = years.firstIndex(of: currentYearString),
            let monthIndex = months.firstIndex(of: currentMonthString) {
             self.selectYearAndMonthPickerView.selectRow(yearIndex, inComponent: 0, animated: false)
-            self.selectYearAndMonthPickerView.selectRow(monthIndex, inComponent: 1, animated: false)
+            self.selectYearAndMonthPickerView.selectRow(monthIndex, inComponent: 1, animated: true)
         }
         
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0) {
             self.selectPickerViewBlockingView.alpha = 1
             self.view.layoutIfNeeded()
         }
-        
     }
     
     func closeYearAndMonthPickerView() {
@@ -363,7 +339,7 @@ extension HistoricalAccountsViewController: UISearchBarDelegate {
     
     func findSearchTextInSpecificMonthInAccounts(_ searchText: String) {
         if searchText.isEmpty == false {
-            specificMonthInAccounts = fetchSpecificMonthInAccounts(self.accounts, yearAndMonthString).filter ({ accounts in
+            self.specificMonthInAccounts = fetchSpecificMonthInAccounts(self.accounts, yearAndMonthString).filter ({ accounts in
                 accounts.subtype.localizedStandardContains(searchText) || accounts.project.localizedStandardContains(searchText) || accounts.note.localizedStandardContains(searchText)
             })
         }else{

@@ -106,7 +106,7 @@ class MainViewController: UIViewController {
     @IBAction func selectDate(_ sender: UIDatePicker) {
         specificDateInAccounts = fetchSpecificDateInAccounts(self.accounts, sender.date)
         showMoneyInThisMonth(date: sender.date)
-        print("\(specificDateInAccounts)")
+//        print("\(specificDateInAccounts)\n\(accounts)")
     }
     
     func showMoneyInThisMonth(date: Date) {
@@ -155,27 +155,27 @@ class MainViewController: UIViewController {
         return newArray
     }
     
-    func findIndexInAccounts(_ indexDate: Accounts) -> Int {
+    func findIndexInAccounts(_ specificDateInAccounts: Accounts) -> Int {
         for (index, account) in self.accounts.enumerated() {
-            if account.accountsIndex == indexDate.accountsIndex {
+            if account.accountsIndex == specificDateInAccounts.accountsIndex {
                 return index
             }
         }
         return 0
     }
     
-    func findIndexInBankAccounts(_ indexDate: Accounts) -> Int? {
+    func findIndexInBankAccounts(_ specificDateInAccounts: Accounts) -> Int? {
         for (index, bankAccount) in self.bankAccounts.enumerated() {
-            if bankAccount.bankAccountsIndex == indexDate.accountsIndex {
+            if bankAccount.bankAccountsIndex == specificDateInAccounts.accountsIndex {
                 return index
             }
         }
         return nil
     }
     
-    func findIndexInWithdrawalBanks(_ indexDate: Accounts) -> Int? {
+    func findIndexInWithdrawalBanks(_ specificDateInAccounts: Accounts) -> Int? {
         for (index, withdrawalBank) in self.withdrawalBanks.enumerated() {
-            if withdrawalBank.withdrawalBanksIndex == indexDate.accountsIndex {
+            if withdrawalBank.withdrawalBanksIndex == specificDateInAccounts.accountsIndex {
                 return index
             }
         }

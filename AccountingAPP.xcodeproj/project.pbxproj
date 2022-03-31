@@ -15,7 +15,6 @@
 		AC62237327E1EA6800850A8F /* AllCategoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC62237227E1EA6800850A8F /* AllCategoriesTableViewController.swift */; };
 		AC62237927E1ED5900850A8F /* AllCategoriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC62237827E1ED5900850A8F /* AllCategoriesTableViewCell.swift */; };
 		AC8F702B27E5AE2B000070C2 /* TransferMoneyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8F702A27E5AE2B000070C2 /* TransferMoneyViewController.swift */; };
-		AC8F702D27EC9015000070C2 /* KeyboardContentInset.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8F702C27EC9015000070C2 /* KeyboardContentInset.swift */; };
 		ACB5739427B582A500FCB998 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB5739327B582A500FCB998 /* AppDelegate.swift */; };
 		ACB5739627B582A500FCB998 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB5739527B582A500FCB998 /* SceneDelegate.swift */; };
 		ACB5739827B582A500FCB998 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB5739727B582A500FCB998 /* MainViewController.swift */; };
@@ -64,7 +63,6 @@
 		AC62237227E1EA6800850A8F /* AllCategoriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesTableViewController.swift; sourceTree = "<group>"; };
 		AC62237827E1ED5900850A8F /* AllCategoriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesTableViewCell.swift; sourceTree = "<group>"; };
 		AC8F702A27E5AE2B000070C2 /* TransferMoneyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferMoneyViewController.swift; sourceTree = "<group>"; };
-		AC8F702C27EC9015000070C2 /* KeyboardContentInset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardContentInset.swift; sourceTree = "<group>"; };
 		ACB5739027B582A500FCB998 /* AccountingAPP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AccountingAPP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACB5739327B582A500FCB998 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ACB5739527B582A500FCB998 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -165,7 +163,6 @@
 				ACBE266727D2253800F31C10 /* ProjectEnum.swift */,
 				ACBE266927D3642C00F31C10 /* NumberFormatter.swift */,
 				AC62237027E1E01E00850A8F /* AllCategoriesEnum.swift */,
-				AC8F702C27EC9015000070C2 /* KeyboardContentInset.swift */,
 			);
 			path = AccountingAPP;
 			sourceTree = "<group>";
@@ -413,7 +410,6 @@
 				ACBE266A27D3642C00F31C10 /* NumberFormatter.swift in Sources */,
 				AC62237327E1EA6800850A8F /* AllCategoriesTableViewController.swift in Sources */,
 				ACD9CD3B27C14332003192E5 /* GoogleMapViewController.swift in Sources */,
-				AC8F702D27EC9015000070C2 /* KeyboardContentInset.swift in Sources */,
 				ACD9CD5F27C4C3C1003192E5 /* FrequentlyUsed.swift in Sources */,
 				ACBE264F27C798F700F31C10 /* HistoricalAccountsViewController.swift in Sources */,
 				ACD9CD2C27BC0B16003192E5 /* AddExpenditureViewController.swift in Sources */,
@@ -573,14 +569,17 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AccountingAPP/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "來吃波奇";
-				INFOPLIST_KEY_NSCameraUsageDescription = "允許來吃波奇啟動拍照功能嗎";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "You need to grant the app access to your camera in order to take photos.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Get location info to show you good services";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Get location info to show you good services";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "You need to grant the app access to your photo library so you can pick your favorite photo.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -606,14 +605,17 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AccountingAPP/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "來吃波奇";
-				INFOPLIST_KEY_NSCameraUsageDescription = "允許來吃波奇啟動拍照功能嗎";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "You need to grant the app access to your camera in order to take photos.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Get location info to show you good services";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Get location info to show you good services";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "You need to grant the app access to your photo library so you can pick your favorite photo.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

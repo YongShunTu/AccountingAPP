@@ -87,17 +87,17 @@ class EditAccountViewController: UIViewController {
         let contentInsets = keyboardSize.height - (view.bounds.height - (textView.frame.maxY + (textView.superview?.frame.minY ?? 0)))
         if noteTextView.isFirstResponder {
             UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0) {
-                self.view.bounds.origin.y = contentInsets
+                self.textView.superview?.bounds.origin.y = contentInsets
             }
         }else{
             UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0) {
-                self.view.bounds.origin.y = 0
+                self.textView.superview?.bounds.origin.y = 0
             }
         }
     }
     
     @objc func keyboardWillBeHidden(_ notification: NSNotification) {
-        self.view.bounds.origin.y = 0
+        self.textView.superview?.bounds.origin.y = 0
     }
     
     func addTapGesture(){

@@ -33,12 +33,6 @@ class GoogleMapViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
-//
-//        // 定位的精準度
-//        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-//
-//        // 取得定位
-//        locationManager.requestLocation()
         // Do any additional setup after loading the view.
         listSearchBar.text = searchBarLabel
         listActivity.isHidden = true
