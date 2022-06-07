@@ -68,19 +68,27 @@ class TransferMoneyViewController: UIViewController {
     */
     
     @IBAction func transferOutButtonClicked(_ sender: UIButton) {
-        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController {
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController,
+           let sheetPresentationController = controller.sheetPresentationController
+        {
             controller.items = bankItems
             controller.itemsName = .transferOut
             controller.delegate = self
+            sheetPresentationController.detents = [.medium()]
+            sheetPresentationController.prefersGrabberVisible = true
             present(controller, animated: true, completion: nil)
         }
     }
     
     @IBAction func transferInButtonClicked(_ sender: UIButton) {
-        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController {
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController,
+           let sheetPresentationController = controller.sheetPresentationController
+        {
             controller.items = bankItems
             controller.itemsName = .transferIn
             controller.delegate = self
+            sheetPresentationController.detents = [.medium()]
+            sheetPresentationController.prefersGrabberVisible = true
             present(controller, animated: true, completion: nil)
         }
     }

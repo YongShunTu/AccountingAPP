@@ -92,6 +92,7 @@ class AnnualReportViewController: UIViewController {
         let aDegree = CGFloat.pi / 180
         let radius: CGFloat = pathView.bounds.width / 2
         let incomeTotal = calculateMonthlyIncome(.allIncome)
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: pathView.bounds.width, height: pathView.bounds.height))
         var startDegree: CGFloat = 270
         var layerColorIndex = 0
         
@@ -99,17 +100,18 @@ class AnnualReportViewController: UIViewController {
             if incomeTotal != 0 {
                 let value = percentage.value / incomeTotal * 100
                 let endDegree = startDegree + 360 * value / 100
-                let pathViewBoundsCenter = CGPoint(x: pathView.bounds.maxX / 2, y: pathView.bounds.maxY / 2)
+//                let pathViewBoundsCenter = CGPoint(x: pathView.bounds.maxX / 2, y: pathView.bounds.maxY / 2)
                 let percentagePath = UIBezierPath()
-                percentagePath.move(to: pathViewBoundsCenter)
-                percentagePath.addArc(withCenter: pathViewBoundsCenter, radius: radius, startAngle: aDegree * startDegree, endAngle: aDegree * endDegree, clockwise: true)
+                percentagePath.move(to: view.center)
+                percentagePath.addArc(withCenter: view.center, radius: radius, startAngle: aDegree * startDegree, endAngle: aDegree * endDegree, clockwise: true)
                 
                 let percentageLayer = CAShapeLayer()
                 percentageLayer.path = percentagePath.cgPath
                 percentageLayer.fillColor = layerColor[layerColorIndex].cgColor
                 layerColorIndex += 1
-                pathView.layer.addSublayer(percentageLayer)
-                pathView.addSubview(self.createLabel(percentage: value, percentageText: percentage.key, starDegree: startDegree, radius: radius, aDegree: aDegree, center: pathViewBoundsCenter))
+                view.layer.addSublayer(percentageLayer)
+                view.addSubview(self.createLabel(percentage: value, percentageText: percentage.key, starDegree: startDegree, radius: radius, aDegree: aDegree, center: view.center))
+                pathView.addSubview(view)
                 startDegree = endDegree
             }
             

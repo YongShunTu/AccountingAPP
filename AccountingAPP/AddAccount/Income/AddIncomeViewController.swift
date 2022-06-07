@@ -115,10 +115,14 @@ class AddIncomeViewController: UIViewController, UITextViewDelegate {
     
     
     @IBAction func categoryButtonClicked(_ sender: UIButton) {
-        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController {
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController,
+           let sheetPresentationController = controller.sheetPresentationController
+        {
             controller.items = incomeCategoryItems
             controller.itemsName = .category
             controller.delegate = self
+            sheetPresentationController.detents = [.medium()]
+            sheetPresentationController.prefersGrabberVisible = true
             present(controller, animated: true, completion: nil)
         }
     }
@@ -126,37 +130,53 @@ class AddIncomeViewController: UIViewController, UITextViewDelegate {
     
     
     @IBAction func subTypeButtonClicked(_ sender: UIButton) {
-        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController {
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController,
+           let sheetPresentationController = controller.sheetPresentationController
+        {
             controller.items = incomeSubTypeItems[categoryString]!
             controller.itemsName = .subType
             controller.categoryItemsPhotoName = categoryString
             controller.delegate = self
+            sheetPresentationController.detents = [.medium()]
+            sheetPresentationController.prefersGrabberVisible = true
             present(controller, animated: true, completion: nil)
         }
     }
     
     @IBAction func bankAccountsButtonClicked(_ sender: UIButton) {
-        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController {
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController,
+           let sheetPresentationController = controller.sheetPresentationController
+{
             controller.items = bankItems
             controller.itemsName = .bankAccounts
             controller.delegate = self
+            sheetPresentationController.detents = [.medium()]
+            sheetPresentationController.prefersGrabberVisible = true
             present(controller, animated: true, completion: nil)
         }
     }
     @IBAction func projectButtonClicked(_ sender: UIButton) {
-        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController {
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController,
+           let sheetPresentationController = controller.sheetPresentationController
+{
             controller.items = incomeProjectItems
             controller.itemsName = .project
             controller.delegate = self
+            sheetPresentationController.detents = [.medium()]
+            sheetPresentationController.prefersGrabberVisible = true
             present(controller, animated: true, completion: nil)
         }
     }
     
     
     @IBAction func locationButtonClicked(_ sender: UIButton) {
-        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(GoogleMapViewController.self)") as? GoogleMapViewController {
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(GoogleMapViewController.self)") as? GoogleMapViewController,
+           let sheetPresentationController = controller.sheetPresentationController
+{
             controller.searchBarLabel = locationLabel.text ?? ""
             controller.googleDelegate = self
+            sheetPresentationController.detents = [.medium()]
+            sheetPresentationController.prefersGrabberVisible = true
             present(controller, animated: true, completion: nil)
         }
     }
@@ -175,7 +195,7 @@ class AddIncomeViewController: UIViewController, UITextViewDelegate {
         let cancle = UIAlertAction(title: "Cancle", style: .default, handler: nil)
         let okAction = UIAlertAction(title: "OK", style: .default) { action in
             var imageName: String?
-            var money = Double(self.money.text ?? "") ?? 0.0
+            let money = Double(self.money.text ?? "") ?? 0.0
             let data = self.selectDate.date
             let category = self.categoryLabel.text ?? ""
             let subtype = self.subTypeLabel.text ?? ""
@@ -185,14 +205,14 @@ class AddIncomeViewController: UIViewController, UITextViewDelegate {
             let location = self.locationLabel.text ?? ""
             let index = UUID().uuidString
             
-            switch foodpandaOrUber.init(rawValue: project) {
-            case .FoodPanda:
-                money = money * 0.7
-            case .Uber:
-                money = money * 0.66
-            default:
-                break
-            }
+//            switch foodpandaOrUber.init(rawValue: project) {
+//            case .FoodPanda:
+//                money = money * 0.7
+//            case .Uber:
+//                money = money * 0.66
+//            default:
+//                break
+//            }
             
             if self.isSelectImage {
                 imageName = UUID().uuidString

@@ -34,6 +34,7 @@ class GoogleMapViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
         // Do any additional setup after loading the view.
+        listSearchBar.addKeyboardReturn()
         listSearchBar.text = searchBarLabel
         listActivity.isHidden = true
 
@@ -53,11 +54,11 @@ class GoogleMapViewController: UIViewController, CLLocationManagerDelegate {
                 print("\(error)")
             }
         }
-        print("Current location: \(currentLocation.coordinate.latitude) \(currentLocation.coordinate.longitude)\n\(location)")
+//        print("Current location: \(currentLocation.coordinate.latitude) \(currentLocation.coordinate.longitude)\n\(location)")
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("error")
+//        print("error")
     }
     
     func updateList(_ lists: [Results]) {

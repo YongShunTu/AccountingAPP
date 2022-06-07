@@ -39,14 +39,14 @@ let expenditureSubTypeItems: [String: [String]] = [
 
 let incomeProjectItems: [String] = [
     "無",
-    "FoodPanda-30%",
-    "Uber-34%"
+    "FoodPanda",
+    "Uber"
 ]
 
 let incomeProjectBankItems: [String: String] = [
     "無" : "店現金",
-    "FoodPanda-30%" : "中國信託",
-    "Uber-34%" : "國泰世華"
+    "FoodPanda" : "中國信託",
+    "Uber" : "國泰世華"
 ]
 
 let bankItems: [String] = [

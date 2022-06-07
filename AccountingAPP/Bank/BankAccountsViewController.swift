@@ -58,7 +58,7 @@ class BankAccountsViewController: UIViewController {
             self.withdrawalBanks = withdrawalBanks
         }
         calculateSpecificBankAccountsMoney()
-        allBankAccountsTotalMoney.text = "波奇淨資產\n\(NumberStyle.currencyStyle().string(from: NSNumber(value: calculateAllBankAccountsTotalMoney())) ?? "")"
+        allBankAccountsTotalMoney.text = "淨資產\n\(NumberStyle.currencyStyle().string(from: NSNumber(value: calculateAllBankAccountsTotalMoney())) ?? "")"
         bankAccountsTableView.reloadData()
     }
     

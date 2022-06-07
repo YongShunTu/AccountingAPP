@@ -12,16 +12,19 @@ class HistoricalAccountsViewController: UIViewController {
     
     @IBOutlet weak var historicalAccountsTableView: UITableView!
     @IBOutlet weak var historicalAccountsTableViewBlockingView: UIView!
-    @IBOutlet weak var selectYearAndMonthPickerView: UIPickerView!
-    @IBOutlet weak var selectYearAndMonthButton: UIButton!
+    @IBOutlet weak var selectLhsdatePickerView: UIPickerView!
+    @IBOutlet weak var selectRhsdatePickerView: UIPickerView!
+    @IBOutlet weak var selectLhsdateButton: UIButton!
+    @IBOutlet weak var selectRhsdateButton: UIButton!
     @IBOutlet weak var selectPickerViewBlockingView: UIView!
     @IBOutlet weak var historicalAccountsSearchBar: UISearchBar!
-    @IBOutlet weak var historicalAccountsTotalMoney: UILabel!
+    @IBOutlet weak var historicalTotalMoneyLabel: UILabel!
     
     var accounts = [Accounts]() {
         didSet {
             Accounts.saveAccount(accounts)
-            findSearchTextInSpecificMonthInAccounts(historicalAccountsSearchBar.text ?? "")
+            findSerchTextInSpecificDateInAccounts(historicalAccountsSearchBar.text ?? "")
+            
         }
     }
     
@@ -37,28 +40,42 @@ class HistoricalAccountsViewController: UIViewController {
         }
     }
     
-    var specificMonthInAccounts = [Accounts]() {
+    var specificDateInAccounts = [Accounts]() {
         didSet {
-            if specificMonthInAccounts.count == 0 {
+            if specificDateInAccounts.count == 0 {
                 historicalAccountsTableViewBlockingView.alpha = 1
-                historicalAccountsTotalMoney.text = "總金額：\(NumberStyle.currencyStyle().string(from: NSNumber(value: calculateSpecificMonthInAccountsTatalMoney())) ?? "")"
+                historicalTotalMoneyLabel.text = "總金額：\(NumberStyle.currencyStyle().string(from: NSNumber(value: calculateSpecificDateInAccountsTatalMoney())) ?? "")"
                 historicalAccountsTableView.reloadData()
             }else{
                 historicalAccountsTableViewBlockingView.alpha = 0
-                historicalAccountsTotalMoney.text = "總金額：\(NumberStyle.currencyStyle().string(from: NSNumber(value: calculateSpecificMonthInAccountsTatalMoney())) ?? "")"
+                historicalTotalMoneyLabel.text = "總金額：\(NumberStyle.currencyStyle().string(from: NSNumber(value: calculateSpecificDateInAccountsTatalMoney())) ?? "")"
                 historicalAccountsTableView.reloadData()
             }
         }
     }
     
     var years: [String] = []
-    let months: [String] = ["01月", "02月", "03月", "04月", "05月", "06月", "07月", "08月", "09月", "10月", "11月", "12月"]
-    var currentYearString: String = ""
-    var currentMonthString: String = ""
-    var yearAndMonthString: String = "" {
+    var months: [String] = ["01月", "02月", "03月", "04月", "05月", "06月", "07月", "08月", "09月", "10月", "11月", "12月"]
+    var days: [String] = []
+    
+    var currentLhsyearString: String = ""
+    var currentLhsmonthString: String = ""
+    var currentLhsdayString: String = ""
+    var currentLhsdateString: String = "" {
         didSet {
-            selectYearAndMonthButton.setTitle(yearAndMonthString, for: .normal)
-            findSearchTextInSpecificMonthInAccounts(historicalAccountsSearchBar.text ?? "")
+            selectLhsdateButton.setTitle(currentLhsdateString, for: .normal)
+            findSerchTextInSpecificDateInAccounts(historicalAccountsSearchBar.text ?? "")
+            print("\(days)")
+        }
+    }
+    
+    var currentRhsyearString: String = ""
+    var currentRhsmonthString: String = ""
+    var currentRhsdayString: String = ""
+    var currentRhsdateString: String = "" {
+        didSet{
+            selectRhsdateButton.setTitle(currentRhsdateString, for: .normal)
+            findSerchTextInSpecificDateInAccounts(historicalAccountsSearchBar.text ?? "")
         }
     }
     
@@ -86,7 +103,7 @@ class HistoricalAccountsViewController: UIViewController {
         historicalAccountsSearchBar.addKeyboardReturn()
         updateAccountsSequence()
         fetchYears()
-        selectYearAndMonthPickerView.reloadAllComponents()
+        fetchDays()
     }
     
     func addTapGesture(){
@@ -109,6 +126,25 @@ class HistoricalAccountsViewController: UIViewController {
         years = year.keys.sorted(by: >)
     }
     
+    func fetchDays() {
+        var year = years.first
+        var month = months.first
+        year?.removeLast()
+        month?.removeLast()
+        let dateComponents = DateComponents(year: Int(year ?? ""), month: Int(month ?? ""))
+        let calendar = Calendar.current
+        let date = calendar.date(from: dateComponents)!
+        
+        let range = calendar.range(of: .day, in: .month, for: date)!
+        let numDays = range.count
+        
+        days.removeAll()
+        for i in 1...numDays {
+            days.append(String(i) + "日")
+        }
+
+    }
+    
     func fetchSpecificMonthInAccounts(_ accounts: [Accounts], _ date: String) -> [Accounts] {
         let newArray = accounts.filter { account in
             let dateForMatter = DateFormatter()
@@ -120,6 +156,23 @@ class HistoricalAccountsViewController: UIViewController {
                 return false
             }
         }
+        return newArray
+    }
+    
+    func fetchSpecificDateInAccounts(_ accounts: [Accounts], _ lhsdateString: String, _ rhsdateString: String) -> [Accounts] {
+        let newArray = accounts.filter { accounts in
+            let dateForMatter = DateFormatter()
+            dateForMatter.dateFormat = "yyyy年MM月dd日"
+            let day = dateForMatter.string(from: accounts.date)
+            let lhsResult = lhsdateString.compare(day, options: .numeric)
+            let rhsResult = rhsdateString.compare(day, options: .numeric)
+            if lhsResult != .orderedDescending && rhsResult != .orderedAscending {
+                return true
+            }else{
+                return false
+            }
+        }
+        
         return newArray
     }
     
@@ -158,8 +211,8 @@ class HistoricalAccountsViewController: UIViewController {
         return nil
     }
     
-    func calculateSpecificMonthInAccountsTatalMoney() -> Double {
-        let total = specificMonthInAccounts.reduce(0.0) { partialResult, account in
+    func calculateSpecificDateInAccountsTatalMoney() -> Double {
+        let total = specificDateInAccounts.reduce(0.0) { partialResult, account in
             switch ExpenditureOrIncome.init(rawValue: account.expenditureOrIncome) {
             case .income:
                 return partialResult + account.money
@@ -171,9 +224,9 @@ class HistoricalAccountsViewController: UIViewController {
             return partialResult
         }
         if total >= 0 {
-            historicalAccountsTotalMoney.textColor = UIColor(red: 123/255, green: 139/255, blue: 111/255, alpha: 1)
+            historicalTotalMoneyLabel.textColor = UIColor(red: 123/255, green: 139/255, blue: 111/255, alpha: 1)
         }else{
-            historicalAccountsTotalMoney.textColor = UIColor(red: 240/255, green: 164/255, blue: 141/255, alpha: 1)
+            historicalTotalMoneyLabel.textColor = UIColor(red: 240/255, green: 164/255, blue: 141/255, alpha: 1)
         }
         return total
     }
@@ -195,14 +248,14 @@ class HistoricalAccountsViewController: UIViewController {
 extension HistoricalAccountsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        specificMonthInAccounts.count
+        specificDateInAccounts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = historicalAccountsTableView.dequeueReusableCell(withIdentifier: "\(HistoricalAccountsTableViewCell.self)", for: indexPath) as? HistoricalAccountsTableViewCell
         else { return UITableViewCell() }
         
-        let account = specificMonthInAccounts[indexPath.row]
+        let account = specificDateInAccounts[indexPath.row]
         
         let dateForMatter = DateFormatter()
         dateForMatter.dateFormat = "yyyy/MM/dd"
@@ -238,7 +291,7 @@ extension HistoricalAccountsViewController: UITableViewDelegate, UITableViewData
         if let controller = segue.destination as? EditAccountViewController,
            let row = historicalAccountsTableView.indexPathForSelectedRow?.row {
             controller.delegate = self
-            controller.account = specificMonthInAccounts[row]
+            controller.account = specificDateInAccounts[row]
         }
     }
     
@@ -247,16 +300,17 @@ extension HistoricalAccountsViewController: UITableViewDelegate, UITableViewData
 extension HistoricalAccountsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        2
+        3
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        
         switch component {
         case 0:
             return years.count
         case 1:
             return months.count
+        case 2:
+            return days.count
         default:
             break
         }
@@ -264,47 +318,101 @@ extension HistoricalAccountsViewController: UIPickerViewDelegate, UIPickerViewDa
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        
         switch component {
         case 0:
             return years[row]
         case 1:
             return months[row]
+        case 2:
+            return days[row]
         default:
             break
         }
         return ""
     }
     
-    @IBAction func showYearAndMonthPickerViewButtonClicked(_ sender: UIButton) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        var year = years[pickerView.selectedRow(inComponent: 0)]
+        var month = months[pickerView.selectedRow(inComponent: 1)]
+        year.removeLast()
+        month.removeLast()
+        let dateComponents = DateComponents(year: Int(year), month: Int(month))
+        let calendar = Calendar.current
+        let date = calendar.date(from: dateComponents)!
+        
+        let range = calendar.range(of: .day, in: .month, for: date)!
+        let numDays = range.count
+        
+        days.removeAll()
+        for i in 1...numDays {
+            days.append(String(i) + "日")
+        }
+        selectLhsdatePickerView.reloadAllComponents()
+        selectRhsdatePickerView.reloadAllComponents()
+    }
+    
+    
+    @IBAction func showLhsdatePickerViewButtonClicked(_ sender: UIButton) {
         if years == [] {
             let alter = UIAlertController(title: "目前無資料喔", message: nil, preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .default, handler: nil)
             alter.addAction(action)
             present(alter, animated: true, completion: nil)
         }else{
-            showYearAndMonthPickerView()
+            selectLhsdatePickerView.isHidden = false
+            selectRhsdatePickerView.isHidden = true
+            showLhsdatePickerView()
         }
     }
     
-    @IBAction func closeYearAndMonthPickerViewButtonClciked(_ sender: UIButton) {
-        closeYearAndMonthPickerView()
+    @IBAction func showRhsdatePickerViewButtonClicked(_ sender: UIButton) {
+        if years == [] {
+            let alter = UIAlertController(title: "目前無資料喔", message: nil, preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alter.addAction(action)
+            present(alter, animated: true, completion: nil)
+        }else{
+            selectLhsdatePickerView.isHidden = true
+            selectRhsdatePickerView.isHidden = false
+            showRhsdatePickerView()
+        }
     }
     
-    @IBAction func selectYearAndMonthButtonClicked(_ sender: UIButton) {
-        let yearIndex = selectYearAndMonthPickerView.selectedRow(inComponent: 0)
-        let monthIndex = selectYearAndMonthPickerView.selectedRow(inComponent: 1)
-        currentYearString = years[yearIndex]
-        currentMonthString = months[monthIndex]
-        yearAndMonthString = currentYearString + currentMonthString
-        closeYearAndMonthPickerView()
+    @IBAction func closeDatePickerViewButtonClciked(_ sender: UIButton) {
+        closeDatePickerView()
     }
     
-    func showYearAndMonthPickerView() {
-        if let yearIndex = years.firstIndex(of: currentYearString),
-           let monthIndex = months.firstIndex(of: currentMonthString) {
-            self.selectYearAndMonthPickerView.selectRow(yearIndex, inComponent: 0, animated: false)
-            self.selectYearAndMonthPickerView.selectRow(monthIndex, inComponent: 1, animated: true)
+    @IBAction func selectDateButtonClicked(_ sender: UIButton) {
+        if !selectLhsdatePickerView.isHidden {
+            let yearIndex = selectLhsdatePickerView.selectedRow(inComponent: 0)
+            let monthIndex = selectLhsdatePickerView.selectedRow(inComponent: 1)
+            let dayIndex = selectLhsdatePickerView.selectedRow(inComponent: 2)
+            currentLhsyearString = years[yearIndex]
+            currentLhsmonthString = months[monthIndex]
+            currentLhsdayString = days[dayIndex]
+            currentLhsdateString = currentLhsyearString + currentLhsmonthString + currentLhsdayString
+        }else if !selectRhsdatePickerView.isHidden {
+            let yearIndex = selectRhsdatePickerView.selectedRow(inComponent: 0)
+            let monthIndex = selectRhsdatePickerView.selectedRow(inComponent: 1)
+            let dayIndex = selectRhsdatePickerView.selectedRow(inComponent: 2)
+            currentRhsyearString = years[yearIndex]
+            currentRhsmonthString = months[monthIndex]
+            currentRhsdayString = days[dayIndex]
+            currentRhsdateString = currentRhsyearString + currentRhsmonthString + currentRhsdayString
+            
+        }
+        
+        closeDatePickerView()
+    }
+    
+    func showLhsdatePickerView() {
+        if let yearIndex = years.firstIndex(of: currentLhsyearString),
+           let monthIndex = months.firstIndex(of: currentLhsmonthString),
+           let lhsday = days.firstIndex(of: currentLhsdayString)
+        {
+            self.selectLhsdatePickerView.selectRow(yearIndex, inComponent: 0, animated: false)
+            self.selectLhsdatePickerView.selectRow(monthIndex, inComponent: 1, animated: false)
+            self.selectLhsdatePickerView.selectRow(lhsday, inComponent: 2, animated: false)
         }
         
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0) {
@@ -313,7 +421,23 @@ extension HistoricalAccountsViewController: UIPickerViewDelegate, UIPickerViewDa
         }
     }
     
-    func closeYearAndMonthPickerView() {
+    func showRhsdatePickerView() {
+        if let yearIndex = years.firstIndex(of: currentRhsyearString),
+           let monthIndex = months.firstIndex(of: currentRhsmonthString),
+           let rhsday = days.firstIndex(of: currentRhsdayString)
+        {
+            selectRhsdatePickerView.selectRow(yearIndex, inComponent: 0, animated: false)
+            selectRhsdatePickerView.selectRow(monthIndex, inComponent: 1, animated: false)
+            selectRhsdatePickerView.selectRow(rhsday, inComponent: 2, animated: false)
+        }
+        
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0) {
+            self.selectPickerViewBlockingView.alpha = 1
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func closeDatePickerView() {
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0) {
             self.selectPickerViewBlockingView.alpha = 0
             self.view.layoutIfNeeded()
@@ -325,25 +449,25 @@ extension HistoricalAccountsViewController: UIPickerViewDelegate, UIPickerViewDa
 extension HistoricalAccountsViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        findSearchTextInSpecificMonthInAccounts(searchText)
+        findSerchTextInSpecificDateInAccounts(searchText)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        findSearchTextInSpecificMonthInAccounts(searchBar.text ?? "")
+        findSerchTextInSpecificDateInAccounts(searchBar.text ?? "")
         searchBar.resignFirstResponder()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
     }
-    
-    func findSearchTextInSpecificMonthInAccounts(_ searchText: String) {
+
+    func findSerchTextInSpecificDateInAccounts(_ searchText: String) {
         if searchText.isEmpty == false {
-            self.specificMonthInAccounts = fetchSpecificMonthInAccounts(self.accounts, yearAndMonthString).filter ({ accounts in
+            specificDateInAccounts = fetchSpecificDateInAccounts(accounts, currentLhsdateString, currentRhsdateString).filter({ accounts in
                 accounts.subtype.localizedStandardContains(searchText) || accounts.project.localizedStandardContains(searchText) || accounts.note.localizedStandardContains(searchText)
             })
         }else{
-            self.specificMonthInAccounts = fetchSpecificMonthInAccounts(self.accounts, yearAndMonthString)
+            specificDateInAccounts = fetchSpecificDateInAccounts(accounts, currentLhsdateString, currentRhsdateString)
         }
     }
     
@@ -352,16 +476,16 @@ extension HistoricalAccountsViewController: UISearchBarDelegate {
 extension HistoricalAccountsViewController: EditAccountViewControllerDelegate {
     func editAccount(edit account: Accounts) {
         if let row = historicalAccountsTableView.indexPathForSelectedRow?.row {
-            let accountIndex = findIndexInAccounts(specificMonthInAccounts[row])
+            let accountIndex = findIndexInAccounts(specificDateInAccounts[row])
             if account.subtype == "轉帳手續費" {
-                if let bankAccountsIndex = findIndexInBankAccounts(specificMonthInAccounts[row]) {
+                if let bankAccountsIndex = findIndexInBankAccounts(specificDateInAccounts[row]) {
                     self.bankAccounts[bankAccountsIndex].handlingFee = account.money
                     self.bankAccounts[bankAccountsIndex].transferOutName = account.bankAccounts
                 }
             }
             
             if account.subtype == "提款手續費" {
-                if let withdrawalBanksIndex = findIndexInWithdrawalBanks(specificMonthInAccounts[row]) {
+                if let withdrawalBanksIndex = findIndexInWithdrawalBanks(specificDateInAccounts[row]) {
                     self.withdrawalBanks[withdrawalBanksIndex].handlingFee = account.money
                     self.withdrawalBanks[withdrawalBanksIndex].transferOutName = account.bankAccounts
                 }

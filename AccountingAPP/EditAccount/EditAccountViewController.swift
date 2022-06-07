@@ -112,15 +112,16 @@ class EditAccountViewController: UIViewController {
     
     func upDateEditAccount() {
         if let account = self.account {
-            switch foodpandaOrUber.init(rawValue: account.project) {
-            case .FoodPanda:
-                money.text = String(format: "%.0f", (account.money / 0.7))
-            case .Uber:
-                money.text = String(format: "%.0f", (account.money / 0.66))
-            default:
-                money.text = String(format: "%.0f", account.money)
-            }
+//            switch foodpandaOrUber.init(rawValue: account.project) {
+//            case .FoodPanda:
+//                money.text = String(format: "%.0f", (account.money / 0.7))
+//            case .Uber:
+//                money.text = String(format: "%.0f", (account.money / 0.66))
+//            default:
+//                money.text = String(format: "%.0f", account.money)
+//            }
             
+            money.text = String(format: "%.0f", account.money)
             categoryString = account.category
             subTypeLabel.text = account.subtype
             selectDate.date = account.date
@@ -152,28 +153,33 @@ class EditAccountViewController: UIViewController {
     
     @IBAction func categoryButtonClicked(_ sender: UIButton) {
         if let account = self.account,
-           let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController
+           let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController,
+           let sheetPresentationController = controller.sheetPresentationController
         {
             switch ExpenditureOrIncome.init(rawValue: account.expenditureOrIncome) {
             case .expenditure:
                 controller.items = expenditureCategoryItems
                 controller.itemsName = .category
                 controller.delegate = self
-                present(controller, animated: true, completion: nil)
+//                present(controller, animated: true, completion: nil)
             case .income:
                 controller.items = incomeCategoryItems
                 controller.itemsName = .category
                 controller.delegate = self
-                present(controller, animated: true, completion: nil)
+//                present(controller, animated: true, completion: nil)
             default:
                 break
             }
+            sheetPresentationController.detents = [.medium()]
+            sheetPresentationController.prefersGrabberVisible = true
+            present(controller, animated: true)
         }
     }
     
     @IBAction func subTypeButtonClicked(_ sender: UIButton) {
         if let account = self.account,
-           let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController
+           let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController,
+           let sheetPresentationController = controller.sheetPresentationController
         {
             switch ExpenditureOrIncome.init(rawValue: account.expenditureOrIncome) {
             case .expenditure:
@@ -181,44 +187,58 @@ class EditAccountViewController: UIViewController {
                 controller.itemsName = .subType
                 controller.categoryItemsPhotoName = categoryString
                 controller.delegate = self
-                present(controller, animated: true, completion: nil)
+//                present(controller, animated: true, completion: nil)
             case .income:
                 controller.items = incomeSubTypeItems[categoryString]!
                 controller.itemsName = .subType
                 controller.categoryItemsPhotoName = categoryString
                 controller.delegate = self
-                present(controller, animated: true, completion: nil)
+//                present(controller, animated: true, completion: nil)
             default:
                 break
             }
+            sheetPresentationController.detents = [.medium()]
+            sheetPresentationController.prefersGrabberVisible = true
+            present(controller, animated: true)
         }
     }
     
     @IBAction func bankAccountsButtonClicked(_ sender: UIButton) {
-        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController {
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController,
+           let sheetPresentationController = controller.sheetPresentationController
+        {
             controller.items = bankItems
             controller.itemsName = .bankAccounts
             controller.delegate = self
+            sheetPresentationController.detents = [.medium()]
+            sheetPresentationController.prefersGrabberVisible = true
             present(controller, animated: true, completion: nil)
         }
     }
     
     @IBAction func projectButtonClicked(_ sender: UIButton) {
         if let controller = storyboard?.instantiateViewController(withIdentifier: "\(AllCategoriesTableViewController.self)") as? AllCategoriesTableViewController,
+           let sheetPresentayionController = controller.sheetPresentationController,
            let accounts = self.account,
            accounts.expenditureOrIncome == ExpenditureOrIncome.income.rawValue
         {
             controller.items = incomeProjectItems
             controller.itemsName = .project
             controller.delegate = self
+            sheetPresentayionController.detents = [.medium()]
+            sheetPresentayionController.prefersGrabberVisible = true
             present(controller, animated: true, completion: nil)
         }
     }
     
     @IBAction func locationButtonClicked(_ sender: UIButton) {
-        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(GoogleMapViewController.self)") as? GoogleMapViewController {
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "\(GoogleMapViewController.self)") as? GoogleMapViewController,
+           let sheetPresentationController = controller.sheetPresentationController
+        {
             controller.searchBarLabel = locationLabel.text ?? ""
             controller.googleDelegate = self
+            sheetPresentationController.detents = [.medium()]
+            sheetPresentationController.prefersGrabberVisible = true
             present(controller, animated: true, completion: nil)
         }
     }
@@ -239,7 +259,7 @@ class EditAccountViewController: UIViewController {
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
             var imageName: String?
             var expenditureOrIncome: String = ""
-            var money = Double(self.money.text ?? "") ?? 0.0
+            let money = Double(self.money.text ?? "") ?? 0.0
             let data = self.selectDate.date
             let category = self.categoryLabel.text ?? ""
             let subtype = self.subTypeLabel.text ?? ""
@@ -249,14 +269,14 @@ class EditAccountViewController: UIViewController {
             let location = self.locationLabel.text ?? ""
             var index: String = ""
             
-            switch foodpandaOrUber.init(rawValue: project) {
-            case .FoodPanda:
-                money = money * 0.7
-            case .Uber:
-                money = money * 0.66
-            default:
-                break
-            }
+//            switch foodpandaOrUber.init(rawValue: project) {
+//            case .FoodPanda:
+//                money = money * 0.7
+//            case .Uber:
+//                money = money * 0.66
+//            default:
+//                break
+//            }
             
             if let account = self.account {
                 imageName = account.imageName
